@@ -19,6 +19,23 @@ function closestItems(latlng, data, num) {
 }
 
 $(function() {
+  var directionsService = new google.maps.DirectionsService();
+
+  function getWalkingTime(start_latlng, end_latlng, callback) {
+    var request = {
+      origin:  start_latlng,
+      destination: end_latlng,
+      travelMode: google.maps.TravelMode.WALKING
+    };
+    directionsService.route(request, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        var duration = response.routes[0].legs[0].duration.text;
+        callback(duration);
+      }
+    });
+
+  }
+
   var log = function(msg) {
     if (console) {
       console.log(msg);
@@ -38,11 +55,25 @@ $(function() {
     size: new google.maps.Size(50,50)
   });
 
-  var markers = [];
+  var MARKER_KEYS = ['bixi', 'grocery']
+  var markers = {};
+  var main_marker;
+  $.each(MARKER_KEYS, function(i, key) {
+    markers[key] = []
+  });
+
+  function resetMarkersFor(key) {
+    $.each(markers[key], function(i, marker) {
+      marker.setMap(null);
+    });
+  }
 
   function resetMarkers() {
-    $.each(markers, function(i, marker) {
-      marker.setMap(null);
+    if (main_marker) {
+      main_marker.setMap(null);
+    }
+    $.each(MARKER_KEYS, function(i, key) {
+      resetMarkersFor(key);
     });
   };
 
@@ -72,15 +103,22 @@ $(function() {
           }
         })(grocery_marker, item));
 
-        markers.push(grocery_marker);
+        markers['grocery'].push(grocery_marker);
       };
 
-      $('#report').append("<div class='report_row'>The closest grocery store is " + 
-          items[0].name +
+      var item = items[0];
+      var loc = item.location;
+      var orig_latlng = new google.maps.LatLng(lat, lng);
+      var dest_latlng = new google.maps.LatLng(loc.lat, loc.lng);
+      getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
+        $('#report').append("<div class='report_row'>The closest grocery store is " + 
+          item.name +
           " and is located " +
-          items[0].location.distance + 
-          " ft from your address." +
+          item.location.distance + 
+          " ft from your address. " +
+          "Walk time : " + walking_time +
           "</div>");
+      });
 
     });
   }
@@ -91,11 +129,11 @@ $(function() {
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
+        main_marker = new google.maps.Marker({
             map: map,
             position: results[0].geometry.location
         });
-        markers.push(marker);
+        var marker = main_marker;
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
@@ -106,9 +144,10 @@ $(function() {
           var bixi_marker = new google.maps.Marker({
               map: map,
               position: latlng,
+              icon: 'images/biximarker.png',
               title: 'Bixi station at ' + bixis[i].name
           });
-          markers.push(bixi_marker);
+          markers['bixi'].push(bixi_marker);
         }
         
         foursquare.getBusStopsNear(marker.getPosition().lat(), marker.getPosition().lng(), function(items) {
