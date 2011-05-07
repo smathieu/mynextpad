@@ -27,5 +27,10 @@ var foursquare = (function(fs) {
     fs.getVenuesNear(lat, lng, callback, {categoryId: category_id});
   };
 
+  fs.getBusStopsNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d1fe931735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+
   return fs;
 })(foursquare || {});
