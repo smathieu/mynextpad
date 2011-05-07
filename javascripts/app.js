@@ -1,4 +1,9 @@
 $(function() {
+  var log = function(msg) {
+    if (console) {
+      console.log(msg);
+    }
+  }
   var latlng = new google.maps.LatLng(-34.397, 150.644);
 
   var map_options = {
@@ -38,7 +43,7 @@ $(function() {
         markers.push(marker);
 
         foursquare.getGroceryStoresNear(marker.getPosition().lat(), marker.getPosition().lng(), function(items) {
-          console.log(items);
+          log(items);
           for (var i = 0; i < 5; i++) {
             var item = items[i];
             var loc = item.location;
