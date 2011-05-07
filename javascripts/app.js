@@ -137,6 +137,7 @@ $(function() {
     var marker_params = {
       map: map,
       position: latlng,
+      zIndex: 0,
       title: name
     };
     marker_params = $.extend(marker_params, options);
@@ -205,7 +206,7 @@ $(function() {
       for (var i = 0; i < 5; i++) {
         var item = items[i];
         if (item) {
-          placeMarker('grocery', item.location, 'Grocery ' + item.name);
+          placeMarker('grocery', item.location, 'Grocery ' + item.name, undefined, {icon : item.categories[0].icon});
         }
       };
 
@@ -228,7 +229,7 @@ $(function() {
   function showLocalBixiStations(loc) {
     var bixis = closestItems(loc, bixi.stations, 5);
     for (var i = 0, len = bixis.length; i < len; i++) {
-      placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/biximarker.png'});
+      placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/markers/biximarker.png'});
     }
     var item = bixis[0];
     addReportRow('bixi', "The closest bixi station is at " + item.name);
@@ -239,7 +240,7 @@ $(function() {
     foursquare.getBusStopsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 5);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name);
+        placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name, undefined, {icon : item.categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('bus', "The closest Bus station is " + dat[0].name);
@@ -251,7 +252,7 @@ $(function() {
     foursquare.getMetroStopsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name);
+        placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name, undefined, {icon : item.categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('metro', "The closest Metro station is " + dat[0].name);
@@ -263,7 +264,7 @@ $(function() {
     foursquare.getGymsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('gym', dat[i].location, 'Gym at ' + dat[i].name);
+        placeMarker('gym', dat[i].location, 'Gym at ' + dat[i].name, undefined, {icon: dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('gym', "The closest Gym is " + dat[0].name);
@@ -276,7 +277,7 @@ $(function() {
     foursquare.getHospitalsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('hospital', dat[i].location, 'Hospital at ' + dat[i].name);
+        placeMarker('hospital', dat[i].location, 'Hospital at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('hospital', "The closest Hospital is " + dat[0].name);
@@ -289,7 +290,7 @@ $(function() {
     foursquare.getFireNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('fire', dat[i].location, 'Fire Station at ' + dat[i].name);
+        placeMarker('fire', dat[i].location, 'Fire Station at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('fire', "The closest Fire station is " + dat[0].name);
@@ -302,7 +303,7 @@ $(function() {
     foursquare.getPoliceNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('police', dat[i].location, 'Police station at ' + dat[i].name);
+        placeMarker('police', dat[i].location, 'Police station at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('police', "The closest Police station is " + dat[0].name);
@@ -321,7 +322,9 @@ $(function() {
         map.setCenter(results[0].geometry.location);
         main_marker = new google.maps.Marker({
             map: map,
-            position: results[0].geometry.location
+            position: results[0].geometry.location,
+            zIndex: 200,
+            icon: 'images/markers/green-dot.png'
         });
         var marker = main_marker;
 
@@ -353,17 +356,8 @@ $(function() {
   $('#search').val(default_search);
   codeAddress(default_search);
 
-  $('input').focus(function() {
-    if (this.value == this.defaultValue) {
-      this.value = ""
-    }
-  });
-
-  $('input').focusout(function() {
-    if (this.value == "") {
-      this.value = this.defaultValue;
-    }
-  });
+  $('#submit').button();
+  
 });
 
 

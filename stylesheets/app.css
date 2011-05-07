@@ -52,3 +52,7 @@ li.report_row{width:500px; height: 70px; background-color:#ccc; padding: 5px;mar
 #search {
   width: 400px;
 }
+
+#search_form {
+  text-align: center;
+}
