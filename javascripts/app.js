@@ -166,6 +166,7 @@ $(function() {
     for (var i = 0, len = bixis.length; i < len; i++) {
       placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/biximarker.png'});
     }
+    addReportRow('bixi', "Bixi Stations");
   }
 
   function showLocalBusStops(lat, lng) {
@@ -174,6 +175,7 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name);
       }
+      addReportRow('bus', "Bus Stops");
     });
   }
   function showLocalMetroStops(lat, lng) {
@@ -182,6 +184,7 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name);
       }
+      addReportRow('metro', "Subway Stations");
     });
   }
   function showLocalGyms(lat, lng) {
@@ -189,6 +192,7 @@ $(function() {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('gym', dat[i].location, 'Gym at ' + dat[i].name);
+      addReportRow('gym', "Gyms");
       }
     });
   }
@@ -199,6 +203,7 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('hospital', dat[i].location, 'Hospital at ' + dat[i].name);
       }
+      addReportRow('hospital', "Hospitals");
     });
   }
 
@@ -208,6 +213,7 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('fire', dat[i].location, 'Fire Station at ' + dat[i].name);
       }
+      addReportRow('fire', "Fire stations");
     });
   }
 
@@ -217,6 +223,7 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('police', dat[i].location, 'Police station at ' + dat[i].name);
       }
+      addReportRow('police', "Police stations");
     });
   }
 
@@ -235,7 +242,7 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-        addReportRow('all', "Show all markerss");
+        addReportRow('all', "Show all markers");
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
         showLocalMetroStops(loc.lat, loc.lng);
@@ -256,7 +263,8 @@ $(function() {
     codeAddress($('#search').val());
   });
   
-
-  codeAddress('Montreal, QC');
+  var default_search = 'Montreal, QC';
+  $('#search').val(default_search);
+  codeAddress(default_search);
 
 });
