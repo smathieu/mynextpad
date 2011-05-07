@@ -40,6 +40,27 @@ $(function() {
 
   var markers = [];
 
+  function placeMarker(loc, name, content) {
+    if (!content) content = name;
+
+
+    var latlng = new google.maps.LatLng(loc.lat, loc.lng);
+    var mark = new google.maps.Marker({
+      map: map,
+        position: latlng,
+        title: name
+    });
+
+    google.maps.event.addListener(mark, 'click', function() {
+      infowindow.close();
+      infowindow.setContent(name);
+      infowindow.setPosition(mark.getPosition());
+      infowindow.open(map, mark);
+    });
+
+    markers.push(mark);
+  }
+
   function resetMarkers() {
     $.each(markers, function(i, marker) {
       marker.setMap(null);
@@ -55,24 +76,7 @@ $(function() {
       log(items);
       for (var i = 0; i < 5; i++) {
         var item = items[i];
-        var loc = item.location;
-        var latlng = new google.maps.LatLng(loc.lat, loc.lng);
-        var grocery_marker = new google.maps.Marker({
-          map: map,
-            position: latlng,
-            title: 'Grocery ' + item.name
-        });
-
-        google.maps.event.addListener(grocery_marker, 'click', (function(marker, item) {
-          return function() {
-            infowindow.close();
-            infowindow.setContent(item.name);
-            infowindow.setPosition(marker.getPosition());
-            infowindow.open(map, marker);
-          }
-        })(grocery_marker, item));
-
-        markers.push(grocery_marker);
+        placeMarker(item.location, 'Grocery ' + item.name);
       };
 
       $('#report').append("<div class='report_row'>The closest grocery store is " + 
@@ -81,8 +85,14 @@ $(function() {
           items[0].location.distance + 
           " ft from your address." +
           "</div>");
-
     });
+  }
+
+  function showLocalBixiStations(loc) {
+    var bixis = closestItems(loc, bixi.stations, 5);
+    for (var i = 0, len = bixis.length; i < len; i++) {
+      placeMarker(bixis[i], 'Bixi station at ' + bixis[i].name);
+    }
   }
 
   function codeAddress(address) {
@@ -99,22 +109,7 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-        var bixis = closestItems(loc, bixi.stations, 5);
-
-        for (var i = 0, len = bixis.length; i < len; i++) {
-          var latlng = new google.maps.LatLng(bixis[i].lat, bixis[i].lng);
-          var bixi_marker = new google.maps.Marker({
-              map: map,
-              position: latlng,
-              title: 'Bixi station at ' + bixis[i].name
-          });
-          markers.push(bixi_marker);
-        }
-        
-        foursquare.getBusStopsNear(marker.getPosition().lat(), marker.getPosition().lng(), function(items) {
-          var dat = closestItems(loc, items, 5);
-        });
-
+        showLocalBixiStations(loc);
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
