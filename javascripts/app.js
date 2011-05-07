@@ -73,7 +73,8 @@ $(function() {
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
-      log(items);
+      items = closestItems({lat: lat, lng:lng}, items, 5);
+//      log(items);
       for (var i = 0; i < 5; i++) {
         var item = items[i];
         placeMarker(item.location, 'Grocery ' + item.name);
@@ -95,6 +96,16 @@ $(function() {
     }
   }
 
+  function showLocalBusStops(lat, lng) {
+    foursquare.getBusStopsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 5);
+      console.log(dat);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker(dat[i].location, 'Bus stations at ' + dat[i].name);
+      }
+    });
+  }
+
   function codeAddress(address) {
     resetMarkers();
     resetReports();
@@ -110,6 +121,7 @@ $(function() {
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
         showLocalBixiStations(loc);
+        showLocalBusStops(loc.lat, loc.lng);
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
