@@ -1,7 +1,12 @@
+/*THE GLOBAL STYLES*/
 html { height: 100% }
-body { height: 100%; margin: 0px; padding: 0px }
-#map_canvas {
-  width: 800px;
-  height: 400px;
-}
+body { height: 100%; margin: 0px; padding: 0px; text-align:center; }
+h1, h2, h3, h4, p, label{padding:5px 10px;}
 
+/*...AND THEN CAME MORE STYLES...*/
+#container{width:960px; margin: 0 auto;text-align:left;}
+#header{background-color:#ccc;}
+#content{}
+#search_form{}
+#map_canvas {text-align: center; width: 800px;height: 400px;}
+#footer{background-color:#ccc;}
