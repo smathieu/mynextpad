@@ -7,11 +7,25 @@ var foursquare = (function(fs) {
     client_secret: secret
   }
 
-  fs.getVenuesNear = function(lat, lng, callback) {
+  fs.getVenuesNear = function(lat, lng, callback, extra_args) {
     var latlng = lat + ',' + lng;
     var params = $.extend(default_params, {ll: latlng});
-    $.getJSON(search_url, params, callback);
-  }
+    if (extra_args) {
+      params = $.extend(params, extra_args);
+    }
+    $.getJSON(search_url, params, function(json) {
+      var items = json.response.groups[0].items;
+      items = items.sort(function(el1, el2) {
+        return el1.location.distance - el2.location.distance;
+      });
+      callback(items);
+    });
+  };
+
+  fs.getGroceryStoresNear = function(lat, lng, callback) {
+    var category_id = '4bf58dd8d48988d118951735';
+    fs.getVenuesNear(lat, lng, callback, {categoryId: category_id});
+  };
 
   return fs;
 })(foursquare || {});

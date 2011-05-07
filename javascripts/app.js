@@ -23,8 +23,8 @@ $(function() {
             position: results[0].geometry.location
         });
 
-        foursquare.getVenuesNear(marker.getPosition().lat(), marker.getPosition().lng(), function(json) {
-          console.log(json);
+        foursquare.getGroceryStoresNear(marker.getPosition().lat(), marker.getPosition().lng(), function(items) {
+          console.log(items);
         });
         
       } else {
