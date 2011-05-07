@@ -28,14 +28,14 @@ li.report_row{width:924px; height: 90px; background-color:#ccc; padding: 5px;mar
 .report-text{width:810px; height: 70px; padding: 10px; float:right; padding:35px 0 0 0;}
 
 /*REPORTS IMAGES*/
-.report-image .bixi{background: url('/images/icons/bixi-icon.png');}
-.report-image .grocery{background: url('/images/icons/grocery-icon.png');}
-.report-image .police{background: url('/images/icons/police-icon.png');}
-.report-image .hospital{background: url('/images/icons/hospital-icon.png');}
-.report-image .fire{background: url('/images/icons/fire-icon.png');}
-.report-image .gym{background: url('/images/icons/gym-icon.png');}
-.report-image .metro{background: url('/images/icons/metro-icon.png');}
-.report-image .bus{background: url('/images/icons/bus-icon.png');}
+.bixi     .report-image {background: url('../images/icons/bixi-icon.png');}
+.grocery  .report-image {background: url('../images/icons/grocery-icon.png');}
+.police   .report-image {background: url('../images/icons/police-icon.png');}
+.hospital .report-image {background: url('../images/icons/hospital-icon.png');}
+.fire     .report-image {background: url('../images/icons/fire-icon.png');}
+.gym      .report-image {background: url('../images/icons/gym-icon.png');}
+.metro    .report-image {background: url('../images/icons/metro-icon.png');}
+.bus      .report-image {background: url('../images/icons/bus-icon.png');}
 
 /*FOOTER*/
 #footer{background-color:#ccc; margin: 0 0 10px 0;}
