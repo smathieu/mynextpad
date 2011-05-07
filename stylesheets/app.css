@@ -49,6 +49,6 @@ li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;
 .food     .report-image {background: url('https://foursquare.com/img/categories/food/default_64.png');}
 
 /*FOOTER*/
-#footer{background-color:#ccc; margin: 0 0 10px 0;}
+#footer{background-color:#efefef; margin: 0 0 10px 0; border-top: 1px solid #ccc;}
 #footer p{margin:0; padding:10px;}
 #footer {height: 40px;}
