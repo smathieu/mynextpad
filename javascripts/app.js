@@ -79,12 +79,16 @@ $(function() {
         placeMarker(item.location, 'Grocery ' + item.name);
       };
 
-      $('#report').append("<div class='report_row'>The closest grocery store is " + 
+      $('<li>', {
+        'class': 'report_row grocery',
+      })
+        .append($('<img />'))
+        .append("The closest grocery store is " + 
           items[0].name +
           " and is located " +
           items[0].location.distance + 
-          " ft from your address." +
-          "</div>");
+          " ft from your address.")
+        .appendTo($('#report'));
     });
   }
 
