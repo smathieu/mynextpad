@@ -31,6 +31,27 @@ var foursquare = (function(fs) {
     var cat = '4bf58dd8d48988d1fe931735';
     fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
   }
+  fs.getMetroStopsNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d1fd931735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+
+  fs.getHospitalsNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d196941735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+  fs.getGymsNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d176941735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+  fs.getPoliceNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d12e941735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+  fs.getFireNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d12c941735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
 
   return fs;
 })(foursquare || {});

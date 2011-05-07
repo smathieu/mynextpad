@@ -55,7 +55,7 @@ $(function() {
     size: new google.maps.Size(50,50)
   });
 
-  var MARKER_KEYS = ['bixi', 'grocery']
+  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus']
   var markers = {};
   var main_marker;
   $.each(MARKER_KEYS, function(i, key) {
@@ -66,6 +66,28 @@ $(function() {
     $.each(markers[key], function(i, marker) {
       marker.setMap(null);
     });
+  }
+
+  function placeMarker(key, loc, name, content, options) {
+    if (!content) content = name;
+
+    var latlng = new google.maps.LatLng(loc.lat, loc.lng);
+    var marker_params = {
+      map: map,
+      position: latlng,
+      title: name
+    };
+    marker_params = $.extend(marker_params, options);
+    var mark = new google.maps.Marker(marker_params);
+
+    google.maps.event.addListener(mark, 'click', function() {
+      infowindow.close();
+      infowindow.setContent(name);
+      infowindow.setPosition(mark.getPosition());
+      infowindow.open(map, mark);
+    });
+
+    markers[key].push(mark);
   }
 
   function resetMarkers() {
@@ -83,45 +105,90 @@ $(function() {
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
-      log(items);
+      items = closestItems({lat: lat, lng:lng}, items, 5);
       for (var i = 0; i < 5; i++) {
         var item = items[i];
-        var loc = item.location;
-        var latlng = new google.maps.LatLng(loc.lat, loc.lng);
-        var grocery_marker = new google.maps.Marker({
-          map: map,
-            position: latlng,
-            title: 'Grocery ' + item.name
-        });
-
-        google.maps.event.addListener(grocery_marker, 'click', (function(marker, item) {
-          return function() {
-            infowindow.close();
-            infowindow.setContent(item.name);
-            infowindow.setPosition(marker.getPosition());
-            infowindow.open(map, marker);
-          }
-        })(grocery_marker, item));
-
-        markers['grocery'].push(grocery_marker);
+        placeMarker('grocery', item.location, 'Grocery ' + item.name);
       };
 
       var item = items[0];
       var loc = item.location;
       var orig_latlng = new google.maps.LatLng(lat, lng);
       var dest_latlng = new google.maps.LatLng(loc.lat, loc.lng);
-      getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
-        $('#report').append("<div class='report_row'>The closest grocery store is " + 
-          item.name +
-          " and is located " +
-          item.location.distance + 
-          " ft from your address. " +
-          "Walk time : " + walking_time +
-          "</div>");
-      });
 
+      getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
+        $('<li>', {
+          'class': 'report_row grocery',
+        }).append($('<img />'))
+        .append("The closest grocery store is " + 
+          items[0].name +
+          " and is located " +
+          items[0].location.distance + 
+          " ft from your address.")
+        .appendTo($('#report'));
+      });
     });
   }
+
+  function showLocalBixiStations(loc) {
+    var bixis = closestItems(loc, bixi.stations, 5);
+    for (var i = 0, len = bixis.length; i < len; i++) {
+      placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/biximarker.png'});
+    }
+  }
+
+  function showLocalBusStops(lat, lng) {
+    foursquare.getBusStopsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 5);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name);
+      }
+    });
+  }
+  function showLocalMetroStops(lat, lng) {
+    foursquare.getMetroStopsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name);
+      }
+    });
+  }
+  function showLocalGyms(lat, lng) {
+    foursquare.getGymsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('gym', dat[i].location, 'Gym at ' + dat[i].name);
+      }
+    });
+  }
+
+ function showLocalHospitals(lat, lng) {
+    foursquare.getHospitalsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('hospital', dat[i].location, 'Hospital at ' + dat[i].name);
+      }
+    });
+  }
+
+ function showLocalFireStations(lat, lng) {
+    foursquare.getFireNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('fire', dat[i].location, 'Fire Station at ' + dat[i].name);
+      }
+    });
+  }
+
+ function showLocalPoliceStations(lat, lng) {
+    foursquare.getPoliceNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('police', dat[i].location, 'Police station at ' + dat[i].name);
+      }
+    });
+  }
+
 
   function codeAddress(address) {
     resetMarkers();
@@ -137,23 +204,13 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-        var bixis = closestItems(loc, bixi.stations, 5);
-
-        for (var i = 0, len = bixis.length; i < len; i++) {
-          var latlng = new google.maps.LatLng(bixis[i].lat, bixis[i].lng);
-          var bixi_marker = new google.maps.Marker({
-              map: map,
-              position: latlng,
-              icon: 'images/biximarker.png',
-              title: 'Bixi station at ' + bixis[i].name
-          });
-          markers['bixi'].push(bixi_marker);
-        }
-        
-        foursquare.getBusStopsNear(marker.getPosition().lat(), marker.getPosition().lng(), function(items) {
-          var dat = closestItems(loc, items, 5);
-        });
-
+        showLocalBixiStations(loc);
+        showLocalBusStops(loc.lat, loc.lng);
+        showLocalMetroStops(loc.lat, loc.lng);
+        showLocalGyms(loc.lat, loc.lng);
+        showLocalPoliceStations(loc.lat, loc.lng);
+        showLocalFireStations(loc.lat, loc.lng);
+        showLocalHospitals(loc.lat, loc.lng);
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
