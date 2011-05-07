@@ -1,3 +1,24 @@
+
+var bixiData = null;
+$.getJSON('bikeStations.json', function(data) {
+  bixiData = data;
+});
+
+function closestBixi(latlng, num) {
+  var data = $.map(bixiData, function(dat, i) {
+    var lat = Math.abs(dat.lat - latlng.lat);
+    var lng = Math.abs(dat.lng - latlng.lng);
+    dat.dist = Math.sqrt(lat*lat + lng*lng );
+    return dat;
+  });
+
+  data.sort(function(a, b) {
+    return a.dist - b.dist;
+  });
+
+  return data.slice(0, num);
+}
+
 $(function() {
   var latlng = new google.maps.LatLng(-34.397, 150.644);
 
@@ -43,7 +64,7 @@ $(function() {
             var grocery_marker = marker = new google.maps.Marker({
                 map: map,
                 position: latlng,
-                title: item.name
+                title: 'Grocery ' + item.name
             });
             markers.push(grocery_marker);
           };
@@ -56,7 +77,21 @@ $(function() {
             "</div>");
             
         });
-        
+
+        var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
+        var bixis = closestBixi(loc, 5);
+
+        for (var i = 0, len = bixis.length; i < len; i++) {
+          var latlng = new google.maps.LatLng(bixis[i].lat, bixis[i].lng);
+          var bixi_marker = new google.maps.Marker({
+              map: map,
+              position: latlng,
+              title: 'Bixi station at ' + bixis[i].name
+          });
+          markers.push(bixi_marker);
+        }
+          
+
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
