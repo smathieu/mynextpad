@@ -61,20 +61,33 @@ $(function() {
   var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus']
   var markers = {};
   var main_marker;
+
+  var selected_key = 'all';
+
   $.each(MARKER_KEYS, function(i, key) {
     markers[key] = []
   });
 
   function resetMarkersFor(key) {
-    $.each(markers[key], function(i, marker) {
-      marker.setMap(null);
-    });
+    if (key == 'all') {
+      resetMarkers();
+    }
+    else {
+      $.each(markers[key], function(i, marker) {
+        marker.setMap(null);
+      });
+    }
   }
 
   function showMarkersFor(key) {
-    $.each(markers[key], function(i, marker) {
-      marker.setMap(map);
-    });
+    if (key == 'all') {
+      showMarkers();
+    }
+    else {
+      $.each(markers[key], function(i, marker) {
+        marker.setMap(map);
+      });
+    }
   }
 
   function showMarkers() {
@@ -122,25 +135,28 @@ $(function() {
   }
   function addReportRow(key, text) {
     return $('<li>', {
-        'data-hovertype': key,
         'class': 'report_row ' + key,
-      }).append($('<div class="report-image"/>'))
+      })
+      .append($('<div class="report-image"/>'))
       .append($('<div />', {
         'class': 'report-text',
-      }).text(text))
-      .appendTo($('#report'));
+      })
+      .text(text))
+      .mouseenter(function() {
+        resetMarkers();
+        showMarkersFor(key);
+      })
+      .mouseleave(function() {
+        resetMarkers();
+        showMarkersFor(selected_key);
+      })
+      .click(function() {
+        resetMarkers();
+        showMarkersFor(key);
+        selected_key = key;
+      })
+    .appendTo($('#report'));
   }
-
-  $("[data-hovertype]").live('hover', function(event) {
-    resetMarkers();
-    var el = $(this);
-    var key = el.data('hovertype')
-    if (key == 'all') {
-      showMarkers();
-    } else {
-      showMarkersFor(key);
-    }
-  });
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
@@ -250,6 +266,7 @@ $(function() {
   function codeAddress(address) {
     resetMarkers();
     resetReports();
+    selected_key = 'all';
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
