@@ -17,7 +17,7 @@ li{list-style:none;margin:0;padding:0;}
 .clear_float{clear:both;width:1px;height:1px;}
 
 /*SEARCH FORM*/
-#search {width: 400px;}
+#search {width: 375px;}
 #search_form{margin: 0 0 10px 0; text-align: center;}
 
 /*GOOGLE MAP*/
