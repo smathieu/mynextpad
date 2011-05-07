@@ -32,8 +32,8 @@ li.report_row{width:431px; height: 74px; background-color:#dedede; padding: 5px;
 .report_row.selected{background-color:#bdd1de; border-color: 1px solid #9bc3de;}
 
 /*REPORTS TEXT*/
-.report-text{width:351px; height: 45px; float:right; padding:30px 0 0 5px; font-size: 14px;}
-.walking_distance {width: min-width:30px; height:24px; float:right; font-size: 12px; background: url('../images/icons/walking.png'); background-repeat: no-repeat; padding: 0 10px 0 30px;}
+.report-text{width:268px; height: 45px; float:left; padding:30px 0 0 5px; font-size: 14px;}
+.walking_distance {min-width:30px; height:24px; float:right; font-size: 12px; background: url('../images/icons/walking.png'); background-repeat: no-repeat; background-position: left bottom; padding: 30px 10px 0 30px; float: right;}
 
 /*REPORTS IMAGES*/
 .report-image{ width:64px; height:64px; display:block; margin: 5px; float:left; background-repeat: no-repeat background-position: center left; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
