@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Our awesome Skhackathon project</title>
+        <title>My Next Pad</title>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js">
         </script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js">
@@ -21,12 +21,12 @@
 	</head>
 	<body>
     		<div id="container">
-    			<div id="header">
-			<h1>New<span>Casa</span></h1>
-			</div>
+    			<div id="header">&nbsp;</div>
 			<div id="content">
-				<h3>Looking for a new place? Want to know what's around? Take a look!</h3>     
+				<h2>Looking for a new place? Want to know what's around? Take a look!</h2>     
 				<form id='search_form'>
+                    <div class="error">We could not find anything at this
+                        address. Please try a more specific search.</div>
 					<input id="search"/>
 					<input id='submit' type="submit" value="Search" />
 				</form>
@@ -34,7 +34,6 @@
 				<ul id="report">&nbsp;</div>
 				<div class="clear_float">&nbsp;</div>
 			</div>
-		<div class="push">&nbsp;</div>
 		</div>
 		<div id="footer">
 			<p>&copy;<script type="text/javascript">var d=new Date();document.write(d.getFullYear());</script> The Awesome Team</p>

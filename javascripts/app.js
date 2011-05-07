@@ -320,7 +320,7 @@ $(function() {
     foursquare.getParksNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('park', dat[i].location, 'Park at ' + dat[i].name);
+        placeMarker('park', dat[i].location, 'Park at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('park', "The closest Park is " + dat[0].name);
@@ -362,7 +362,7 @@ $(function() {
   function codeAddress(address) {
     resetMarkers();
     resetReports();
-    $('#search').removeClass('error');
+    $('.error').hide();
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -388,7 +388,7 @@ $(function() {
         showLocalParks(loc.lat, loc.lng);
         showLocalFood(loc.lat, loc.lng);
       } else {
-        $('#search').addClass('error');
+        $('.error').show();
       }
     });
   }
@@ -405,6 +405,7 @@ $(function() {
   codeAddress(default_search);
 
   $('#submit').button();
+  $('.error').hide();
   
 });
 
