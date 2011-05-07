@@ -8,29 +8,29 @@ h1, h2, h3, h4, p, label{padding:5px 10px;}
 li{list-style:none;margin:0;padding:0;}
 
 /*...AND THEN CAME MORE STYLES...*/
-#container{border: 1px solid #ccc; border-right: 1px solid #ccc; width:940px; text-align:left; margin: 0 auto 30px;}
+#container{border: 1px solid #ccc; border-right: 1px solid #ccc; width:940px; text-align:left; margin: 0 auto 30px;background-color:#efefef;}
 #header{height:100px;background: #efefef url('../images/logo/mynextpad-logo-300px.png') no-repeat center center;}
 #content{margin: 0; border-bottom: 1px solid #ccc; background-color:#efefef;}
 #content h2{text-align:center; font-family: 'Cafeta';font-size:22px;}
-#submit{font-family: 'Cafeta'; font-size: 12px;}
 .error {color: red;}
 .clear_float{clear:both;width:1px;height:1px;}
 
 /*SEARCH FORM*/
-#search {width: 400px;}
+#search {width: 375px;}
 #search_form{margin: 0 0 10px 0; text-align: center;}
+#submit{font-family: 'Cafeta'; font-size: 12px;}
 
 /*GOOGLE MAP*/
-#map_canvas {text-align: center; width: 393px; height: 390px; margin: 1px 0 0 0; float:left;border-right: 1px solid #ccc;background-color:#fbfbfb;}
+#map_canvas {text-align: center; width: 460px; height: 390px; margin: 1px 0 0 0; float:left;border-right: 1px solid #ccc;background-color:#fbfbfb;}
 
 /*REPORTS*/
-ul#report{margin:0;padding: 0; width:546px; height:390px; overflow-y:auto; overflow-x:none; float: right; background-color:#fbfbfb;}
-li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;margin:10px;border: 1px solid #ccc; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+ul#report{margin:0;padding: 0; width:478px; height:390px; overflow-y:auto; overflow-x:none; float: right; background-color:#fbfbfb;}
+li.report_row{width:431px; height: 74px; background-color:#dedede; padding: 5px;margin:10px;border: 1px solid #ccc; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
 .report_row.hover{background-color:#e5e5e5;}
 .report_row.selected{background-color:#bdd1de; border-color: 1px solid #9bc3de;}
 
 /*REPORTS TEXT*/
-.report-text{width:420px; height: 45px; float:right; padding:27px 0 0 5px; font-size: small;}
+.report-text{width:351px; height: 45px; float:right; padding:10px 0 0 5px; font-size: 14px;}
 .walking_distance {width: min-width:30px; height:24px; float:right; font-size: 12px; background: url('../images/icons/walking.png'); background-repeat: no-repeat; padding: 0 10px 0 30px;}
 
 /*REPORTS IMAGES*/
@@ -48,8 +48,10 @@ li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;
 .park     .report-image {background: url('https://foursquare.com/img/categories/parks_outdoors/default_64.png');}
 .school   .report-image {background: url('https://foursquare.com/img/categories/building/default_64.png');}
 .food     .report-image {background: url('https://foursquare.com/img/categories/food/default_64.png');}
+.convenience .report-image {background: url('https://foursquare.com/img/categories/shops/default_64.png');}
+.drugstore .report-image {background: url('https://foursquare.com/img/categories/shops/drugstore.png');}
 
 /*FOOTER*/
-#footer{background-color:#ccc; margin: 0 0 10px 0;}
+#footer{background-color:#efefef; margin: 0 0 10px 0; border-top: 1px solid #ccc;}
 #footer p{margin:0; padding:10px;}
 #footer {height: 40px;}
