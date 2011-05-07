@@ -332,7 +332,7 @@ $(function() {
   function codeAddress(address) {
     resetMarkers();
     resetReports();
-    $('#search').removeClass('error');
+    $('.error').hide();
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -357,7 +357,7 @@ $(function() {
         showLocalHospitals(loc.lat, loc.lng);
         showLocalParks(loc.lat, loc.lng);
       } else {
-        $('#search').addClass('error');
+        $('.error').show();
       }
     });
   }
@@ -374,6 +374,7 @@ $(function() {
   codeAddress(default_search);
 
   $('#submit').button();
+  $('.error').hide();
   
 });
 
