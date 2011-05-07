@@ -58,7 +58,7 @@ $(function() {
     size: new google.maps.Size(50,50)
   });
 
-  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus', 'park', 'food', 'convenience']
+  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus', 'park', 'food', 'convenience', 'drugstore']
   var markers = {};
   var main_marker;
 
@@ -343,6 +343,19 @@ $(function() {
     });
   }
 
+  function showLocalDrugStores(lat, lng) {
+    foursquare.getDrugstoresNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('drugstore', dat[i].location, 'Drugstore at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
+      }
+      if (dat[0]) {
+        addReportRow('drugstore', "The closest Drugstore is " + dat[0].name);
+        fs_add_walking_time('drugstore', lat, lng, dat[0].location);
+      }
+    });
+  }
+
   function showLocalFood(lat, lng) {
     foursquare.getVenuesNear(lat, lng, function(data) {
 
@@ -402,6 +415,7 @@ $(function() {
         showLocalParks(loc.lat, loc.lng);
         showLocalFood(loc.lat, loc.lng);
         showLocalConvenienceStore(loc.lat, loc.lng);
+        showLocalDrugStores(loc.lat, loc.lng);
       } else {
         $('.error').show();
       }
