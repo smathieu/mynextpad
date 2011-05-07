@@ -353,4 +353,17 @@ $(function() {
   $('#search').val(default_search);
   codeAddress(default_search);
 
+  $('input').focus(function() {
+    if (this.value == this.defaultValue) {
+      this.value = ""
+    }
+  });
+
+  $('input').focusout(function() {
+    if (this.value == "") {
+      this.value = this.defaultValue;
+    }
+  });
 });
+
+

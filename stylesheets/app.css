@@ -44,3 +44,7 @@ li.report_row{width:924px; height: 90px; background-color:#ccc; padding: 5px;mar
 .walking_distance {
   float:right;
 }
+
+#search {
+  width: 400px;
+}
