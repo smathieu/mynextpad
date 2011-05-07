@@ -61,14 +61,22 @@ $(function() {
   var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus']
   var markers = {};
   var main_marker;
+
+  var selected_key = 'all';
+
   $.each(MARKER_KEYS, function(i, key) {
     markers[key] = []
   });
 
   function hideMarkersFor(key) {
-    $.each(markers[key], function(i, marker) {
-      marker.setMap(null);
-    });
+    if (key == 'all') {
+      hideMarkers();
+    }
+    else {
+      $.each(markers[key], function(i, marker) {
+        marker.setMap(null);
+      });
+    }
   }
 
   function hideMarkers() {
@@ -78,14 +86,24 @@ $(function() {
   }
 
   function resetMarkersFor(key) {
-    hideMarkers(key);
-    markers[key] = [];
+    if (key == 'all') {
+      resetMarkers();
+    }
+    else {
+      hideMarkers(key);
+      markers[key] = [];
+    }
   }
 
   function showMarkersFor(key) {
-    $.each(markers[key], function(i, marker) {
-      marker.setMap(map);
-    });
+    if (key == 'all') {
+      showMarkers();
+    }
+    else {
+      $.each(markers[key], function(i, marker) {
+        marker.setMap(map);
+      });
+    }
   }
 
   function showMarkers() {
@@ -133,40 +151,58 @@ $(function() {
   }
   function addReportRow(key, text) {
     return $('<li>', {
-        'data-hovertype': key,
+        id: key + '_row',
         'class': 'report_row ' + key,
-      }).append($('<div class="report-image"/>'))
+      })
+      .append($('<div class="report-image"/>'))
       .append($('<div />', {
         'class': 'report-text',
-      }).text(text))
-      .appendTo($('#report'));
+      })
+      .text(text))
+      .mouseenter(function() {
+        hideMarkers();
+        showMarkersFor(key);
+      })
+      .mouseleave(function() {
+        hideMarkers();
+        showMarkersFor(selected_key);
+      })
+      .click(function() {
+        hideMarkers();
+        showMarkersFor(key);
+        selected_key = key;
+      })
+    .appendTo($('#report'));
   }
 
-  $("[data-hovertype]").live('hover', function(event) {
-    hideMarkers();
-    var el = $(this);
-    var key = el.data('hovertype')
-    if (key == 'all') {
-      showMarkers();
-    } else {
-      showMarkersFor(key);
-    }
-  });
+  function add_walking_time (key, time) {
+    $('#' + key + '_row').append($('<div>', { 
+      'class': 'walking_distance'
+    }).append(time));
+  }
+
+  function fs_add_walking_time (key, lat, lng, loc) {
+    var orig_latlng = new google.maps.LatLng(lat, lng);
+    var dest_latlng = new google.maps.LatLng(loc.lat, loc.lng);
+    getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
+      add_walking_time(key, walking_time);
+    });
+  }
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
       items = closestItems({lat: lat, lng:lng}, items, 5);
       for (var i = 0; i < 5; i++) {
         var item = items[i];
-        placeMarker('grocery', item.location, 'Grocery ' + item.name);
+        if (item) {
+          placeMarker('grocery', item.location, 'Grocery ' + item.name);
+        }
       };
 
       var item = items[0];
+      if (item) {
       var loc = item.location;
-      var orig_latlng = new google.maps.LatLng(lat, lng);
-      var dest_latlng = new google.maps.LatLng(loc.lat, loc.lng);
 
-      getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
         addReportRow('grocery',
           "The closest grocery store is " +
           items[0].name +
@@ -174,7 +210,8 @@ $(function() {
           items[0].location.distance +
           " ft from your address."
          );
-      });
+        fs_add_walking_time('grocery', lat, lng, loc);
+      }
     });
   }
 
@@ -185,6 +222,7 @@ $(function() {
     }
     var item = bixis[0];
     addReportRow('bixi', "The closest bixi station is at " + item.name);
+    fs_add_walking_time('bixi', loc.lat, loc.lng, item);
   }
 
   function showLocalBusStops(lat, lng) {
@@ -195,6 +233,7 @@ $(function() {
       }
       if (dat[0]) {
         addReportRow('bus', "The closest Bus station is " + dat[0].name);
+        fs_add_walking_time('bus', lat, lng, dat[0].location);
       }
     });
   }
@@ -206,6 +245,7 @@ $(function() {
       }
       if (dat[0]) {
         addReportRow('metro', "The closest Metro station is " + dat[0].name);
+        fs_add_walking_time('metro', lat, lng, dat[0].location);
       }
     });
   }
@@ -217,6 +257,7 @@ $(function() {
       }
       if (dat[0]) {
         addReportRow('gym', "The closest Gym is " + dat[0].name);
+        fs_add_walking_time('gym', lat, lng, dat[0].location);
       }
     });
   }
@@ -229,6 +270,7 @@ $(function() {
       }
       if (dat[0]) {
         addReportRow('hospital', "The closest Hospital is " + dat[0].name);
+        fs_add_walking_time('hospital', lat, lng, dat[0].location);
       }
     });
   }
@@ -241,6 +283,7 @@ $(function() {
       }
       if (dat[0]) {
         addReportRow('fire', "The closest Fire station is " + dat[0].name);
+        fs_add_walking_time('fire', lat, lng, dat[0].location);
       }
     });
   }
@@ -253,6 +296,7 @@ $(function() {
       }
       if (dat[0]) {
         addReportRow('police', "The closest Police station is " + dat[0].name);
+        fs_add_walking_time('police', lat, lng, dat[0].location);
       }
     });
   }
@@ -261,6 +305,7 @@ $(function() {
   function codeAddress(address) {
     resetMarkers();
     resetReports();
+    selected_key = 'all';
     $('#search').removeClass('error');
 
     geocoder.geocode( { 'address': address}, function(results, status) {
@@ -271,10 +316,10 @@ $(function() {
             position: results[0].geometry.location
         });
         var marker = main_marker;
-        showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
         addReportRow('all', "Show all markers");
+        showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
         showLocalMetroStops(loc.lat, loc.lng);
