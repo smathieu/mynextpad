@@ -51,6 +51,41 @@ $(function() {
     $('#report').html('')
   }
 
+  function showLocalGroceryStores (lat, lng) {
+    foursquare.getGroceryStoresNear(lat, lng, function(items) {
+      log(items);
+      for (var i = 0; i < 5; i++) {
+        var item = items[i];
+        var loc = item.location;
+        var latlng = new google.maps.LatLng(loc.lat, loc.lng);
+        var grocery_marker = new google.maps.Marker({
+          map: map,
+            position: latlng,
+            title: 'Grocery ' + item.name
+        });
+
+        google.maps.event.addListener(grocery_marker, 'click', (function(marker, item) {
+          return function() {
+            infowindow.close();
+            infowindow.setContent(item.name);
+            infowindow.setPosition(marker.getPosition());
+            infowindow.open(map, marker);
+          }
+        })(grocery_marker, item));
+
+        markers.push(grocery_marker);
+      };
+
+      $('#report').append("<div class='report_row'>The closest grocery store is " + 
+          items[0].name +
+          " and is located " +
+          items[0].location.distance + 
+          " ft from your address." +
+          "</div>");
+
+    });
+  }
+
   function codeAddress(address) {
     resetMarkers();
     resetReports();
@@ -62,39 +97,7 @@ $(function() {
             position: results[0].geometry.location
         });
         markers.push(marker);
-
-        foursquare.getGroceryStoresNear(marker.getPosition().lat(), marker.getPosition().lng(), function(items) {
-          log(items);
-          for (var i = 0; i < 5; i++) {
-            var item = items[i];
-            var loc = item.location;
-            var latlng = new google.maps.LatLng(loc.lat, loc.lng);
-            var grocery_marker = new google.maps.Marker({
-                map: map,
-                position: latlng,
-                title: 'Grocery ' + item.name
-            });
-
-            google.maps.event.addListener(grocery_marker, 'click', (function(marker, item) {
-              return function() {
-                infowindow.close();
-                infowindow.setContent(item.name);
-                infowindow.setPosition(marker.getPosition());
-                infowindow.open(map, marker);
-              }
-            })(grocery_marker, item));
-            
-            markers.push(grocery_marker);
-          };
-
-          $('#report').append("<div class='report_row'>The closest grocery store is " + 
-            items[0].name +
-            " and is located " +
-            items[0].location.distance + 
-            " ft from your address." +
-            "</div>");
-            
-        });
+        showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
         var bixis = closestBixi(loc, 5);
