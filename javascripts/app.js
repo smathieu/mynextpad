@@ -74,7 +74,6 @@ $(function() {
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
       items = closestItems({lat: lat, lng:lng}, items, 5);
-//      log(items);
       for (var i = 0; i < 5; i++) {
         var item = items[i];
         placeMarker(item.location, 'Grocery ' + item.name);
@@ -99,7 +98,6 @@ $(function() {
   function showLocalBusStops(lat, lng) {
     foursquare.getBusStopsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 5);
-      console.log(dat);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker(dat[i].location, 'Bus stations at ' + dat[i].name);
       }
