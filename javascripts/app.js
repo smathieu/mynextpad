@@ -71,6 +71,30 @@ $(function() {
     });
   }
 
+  function showMarkersFor(key) {
+    $.each(markers[key], function(i, marker) {
+      marker.setMap(map);
+    });
+  }
+
+  function showMarkers() {
+    if (main_marker) {
+      main_marker.setMap(map);
+    }
+    $.each(MARKER_KEYS, function(i, key) {
+      showMarkersFor(key);
+    });
+  };
+
+  function resetMarkers() {
+    if (main_marker) {
+      main_marker.setMap(null);
+    }
+    $.each(MARKER_KEYS, function(i, key) {
+      resetMarkersFor(key);
+    });
+  };
+
   function placeMarker(key, loc, name, content, options) {
     if (!content) content = name;
 
@@ -93,20 +117,12 @@ $(function() {
     markers[key].push(mark);
   }
 
-  function resetMarkers() {
-    if (main_marker) {
-      main_marker.setMap(null);
-    }
-    $.each(MARKER_KEYS, function(i, key) {
-      resetMarkersFor(key);
-    });
-  };
-
   function resetReports() {
     $('#report').html('')
   }
   function addReportRow(key, text) {
     return $('<li>', {
+        'data-hovertype': key,
         'class': 'report_row ' + key,
       }).append($('<div class="report-image"/>'))
       .append($('<div />', {
@@ -114,6 +130,17 @@ $(function() {
       }).text(text))
       .appendTo($('#report'));
   }
+
+  $("[data-hovertype]").live('hover', function(event) {
+    resetMarkers();
+    var el = $(this);
+    var key = el.data('hovertype')
+    if (key == 'all') {
+      showMarkers();
+    } else {
+      showMarkersFor(key);
+    }
+  });
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
@@ -234,6 +261,7 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
+        addReportRow('all', "Show all markerss");
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
         showLocalMetroStops(loc.lat, loc.lng);
@@ -246,6 +274,8 @@ $(function() {
       }
     });
   }
+
+
 
   $('#search_form').submit(function(event) {
     event.preventDefault()
