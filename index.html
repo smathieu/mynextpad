@@ -4,6 +4,8 @@
         <title>Our awesome Skhackathon project</title>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js">
         </script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js">
+        </script>
         <script type="text/javascript" src="javascripts/bike_stations.js">
         </script>
         <script type="text/javascript" src="javascripts/foursquare.js">
@@ -13,8 +15,9 @@
         <script type="text/javascript"
             src="http://maps.google.com/maps/api/js?sensor=false">
 	</script>
- 		
+	<link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
 	<link href="stylesheets/app.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/smoothness/jquery-ui-1.8.12.custom.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
     		<div id="container">
@@ -24,14 +27,12 @@
 			<div id="content">
 				<h3>Looking for a new place? Want to know what's around? Take a look!</h3>     
 				<form id='search_form'>
-        				<label>Search</label>
 					<input id="search"/>
-					<input type="submit" value="Submit" />
+					<input id='submit' type="submit" value="Search" />
 				</form>
-			
 				<div id="map_canvas">&nbsp;</div>
-
 				<ul id="report">&nbsp;</div>
+				<div class="clear_float">&nbsp;</div>
 			</div>
 		<div class="push">&nbsp;</div>
 		</div>
