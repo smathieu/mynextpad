@@ -1,9 +1,4 @@
 
-var bixiData = null;
-$.getJSON('bikeStations.json', function(data) {
-  bixiData = data;
-});
-
 function calcDistances(latlng, data) {
   return $.map(data, function(dat, i) {
     var d = $.extend({}, dat);
@@ -104,7 +99,7 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-        var bixis = closestItems(loc, bixiData, 5);
+        var bixis = closestItems(loc, bixi.stations, 5);
 
         for (var i = 0, len = bixis.length; i < len; i++) {
           var latlng = new google.maps.LatLng(bixis[i].lat, bixis[i].lng);
