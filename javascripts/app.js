@@ -227,9 +227,12 @@ $(function() {
   }
 
   function showLocalBixiStations(loc) {
-    var bixis = closestItems(loc, bixi.stations, 5);
+    var bixis = closestItems(loc, bixi.stations, 5).filter(function(i) {return i.dist < 0.02});
+    if (bixis.length == 0) return;
     for (var i = 0, len = bixis.length; i < len; i++) {
-      placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/markers/biximarker.png'});
+      if (bixis[i].dist < 0.01) {
+        placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/markers/biximarker.png'});
+      }
     }
     var item = bixis[0];
     addReportRow('bixi', "The closest bixi station is at " + item.name);
