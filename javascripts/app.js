@@ -261,7 +261,7 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-        addReportRow('all', "Show all markerss");
+        addReportRow('all', "Show all markers");
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
         showLocalMetroStops(loc.lat, loc.lng);
@@ -282,7 +282,8 @@ $(function() {
     codeAddress($('#search').val());
   });
   
-
-  codeAddress('Montreal, QC');
+  var default_search = 'Montreal, QC';
+  $('#search').val(default_search);
+  codeAddress(default_search);
 
 });
