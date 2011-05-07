@@ -28,7 +28,7 @@ $(function() {
 
   var map_options = {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-    zoom: 12,
+    zoom: 15,
     center: latlng
   };
 
