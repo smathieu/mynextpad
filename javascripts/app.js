@@ -32,6 +32,10 @@ $(function() {
         var duration = response.routes[0].legs[0].duration.text;
         callback(duration);
       }
+      else {
+        log('Error checking walking time');
+        log(status);
+      }
     });
   }
 
@@ -67,6 +71,30 @@ $(function() {
     });
   }
 
+  function showMarkersFor(key) {
+    $.each(markers[key], function(i, marker) {
+      marker.setMap(map);
+    });
+  }
+
+  function showMarkers() {
+    if (main_marker) {
+      main_marker.setMap(map);
+    }
+    $.each(MARKER_KEYS, function(i, key) {
+      showMarkersFor(key);
+    });
+  };
+
+  function resetMarkers() {
+    if (main_marker) {
+      main_marker.setMap(null);
+    }
+    $.each(MARKER_KEYS, function(i, key) {
+      resetMarkersFor(key);
+    });
+  };
+
   function placeMarker(key, loc, name, content, options) {
     if (!content) content = name;
 
@@ -89,25 +117,30 @@ $(function() {
     markers[key].push(mark);
   }
 
-  function resetMarkers() {
-    if (main_marker) {
-      main_marker.setMap(null);
-    }
-    $.each(MARKER_KEYS, function(i, key) {
-      resetMarkersFor(key);
-    });
-  };
-
   function resetReports() {
     $('#report').html('')
   }
   function addReportRow(key, text) {
     return $('<li>', {
+        'data-hovertype': key,
         'class': 'report_row ' + key,
       }).append($('<div class="report-image"/>'))
-      .append(text)
+      .append($('<div />', {
+        'class': 'report-text',
+      }).text(text))
       .appendTo($('#report'));
   }
+
+  $("[data-hovertype]").live('hover', function(event) {
+    resetMarkers();
+    var el = $(this);
+    var key = el.data('hovertype')
+    if (key == 'all') {
+      showMarkers();
+    } else {
+      showMarkersFor(key);
+    }
+  });
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
@@ -123,7 +156,7 @@ $(function() {
       var dest_latlng = new google.maps.LatLng(loc.lat, loc.lng);
 
       getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
-        addReportRow('grocery', 
+        addReportRow('grocery',
           "The closest grocery store is " +
           items[0].name +
           " and is located " +
@@ -139,6 +172,8 @@ $(function() {
     for (var i = 0, len = bixis.length; i < len; i++) {
       placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/biximarker.png'});
     }
+    var item = bixis[0];
+    addReportRow('bixi', "The closest bixi station is at " + item.name);
   }
 
   function showLocalBusStops(lat, lng) {
@@ -146,6 +181,9 @@ $(function() {
       var dat = closestItems({lat: lat, lng: lng}, items, 5);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name);
+      }
+      if (dat[0]) {
+        addReportRow('bus', "The closest Bus station is " + dat[0].name);
       }
     });
   }
@@ -155,6 +193,9 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name);
       }
+      if (dat[0]) {
+        addReportRow('metro', "The closest Metro station is " + dat[0].name);
+      }
     });
   }
   function showLocalGyms(lat, lng) {
@@ -163,14 +204,20 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('gym', dat[i].location, 'Gym at ' + dat[i].name);
       }
+      if (dat[0]) {
+        addReportRow('gym', "The closest Gym is " + dat[0].name);
+      }
     });
   }
 
- function showLocalHospitals(lat, lng) {
+  function showLocalHospitals(lat, lng) {
     foursquare.getHospitalsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('hospital', dat[i].location, 'Hospital at ' + dat[i].name);
+      }
+      if (dat[0]) {
+        addReportRow('hospital', "The closest Hospital is " + dat[0].name);
       }
     });
   }
@@ -181,6 +228,9 @@ $(function() {
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('fire', dat[i].location, 'Fire Station at ' + dat[i].name);
       }
+      if (dat[0]) {
+        addReportRow('fire', "The closest Fire station is " + dat[0].name);
+      }
     });
   }
 
@@ -189,6 +239,9 @@ $(function() {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('police', dat[i].location, 'Police station at ' + dat[i].name);
+      }
+      if (dat[0]) {
+        addReportRow('police', "The closest Police station is " + dat[0].name);
       }
     });
   }
@@ -208,6 +261,7 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
+        addReportRow('all', "Show all markers");
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
         showLocalMetroStops(loc.lat, loc.lng);
@@ -221,12 +275,15 @@ $(function() {
     });
   }
 
+
+
   $('#search_form').submit(function(event) {
     event.preventDefault()
     codeAddress($('#search').val());
   });
   
-
-  codeAddress('Montreal, QC');
+  var default_search = 'Montreal, QC';
+  $('#search').val(default_search);
+  codeAddress(default_search);
 
 });
