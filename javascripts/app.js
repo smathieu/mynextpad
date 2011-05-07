@@ -22,6 +22,10 @@ $(function() {
             map: map,
             position: results[0].geometry.location
         });
+
+        foursquare.getVenuesNear(marker.getPosition().lat(), marker.getPosition().lng(), function(json) {
+          console.log(json);
+        });
         
       } else {
         alert("Geocode was not successful for the following reason: " + status);
