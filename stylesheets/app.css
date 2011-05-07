@@ -1,16 +1,18 @@
 /*THE GLOBAL STYLES*/
+@font-face{font-family:"Cafeta"; font-style:normal; font-weight:bold; src:url(../fonts/cafeta.ttf) ;}
+
 * {margin: 0;}
 html, body { height: 100% }
-body {margin: 0px; padding: 0px; text-align:center;font-family: 'Cabin', arial, serif;}
+body {margin: 0px; padding: 0px; text-align:center;font-family: 'Cabin', arial, serif; background-color:#fbfbfb;}
 h1, h2, h3, h4, p, label{padding:5px 10px;}
 li{list-style:none;margin:0;padding:0;}
 
 /*...AND THEN CAME MORE STYLES...*/
 #container{border: 1px solid #ccc; border-right: 1px solid #ccc; width:940px; text-align:left; margin: 0 auto 30px;}
-#header{background-color:#ccc;}
-#header h1{text-align:center; color:#003AB5;}
-#content{margin: 0; border-bottom: 1px solid #ccc;}
-#content h3{text-align:center;}
+#header{height:100px;background: #efefef url('../images/logo/mynextpad-logo-300px.png') no-repeat center center;}
+#content{margin: 0; border-bottom: 1px solid #ccc; background-color:#efefef;}
+#content h2{text-align:center; font-family: 'Cafeta';font-size:22px;}
+#submit{font-family: 'Cafeta'; font-size: 12px;}
 .error {color: red;}
 .clear_float{clear:both;width:1px;height:1px;}
 
@@ -18,20 +20,21 @@ li{list-style:none;margin:0;padding:0;}
 #search_form{margin: 0 0 10px 0;}
 
 /*GOOGLE MAP*/
-#map_canvas {text-align: center; width: 391px; height: 390px; float:left;}
+#map_canvas {text-align: center; width: 393px; height: 390px; margin: 1px 0 0 0; float:left;border-right: 1px solid #ccc;}
 
 /*REPORTS*/
-ul#report{margin:0;padding: 0; width:547px; height:390px; overflow-y:auto; overflow-x:none; float: right;}
-li.report_row{width:500px; height: 74px; background-color:#ccc; padding: 5px;margin:10px;border: 1px solid #888;}
-.report_row.hover{background-color:#e2e2e2;}
-.report_row.selected{background-color:#efefef;}
-.report-image{ width:64px; height:64px; display:block; margin: 5px; float:left; border: 1px solid #888; background-repeat: no-repeat background-position: center left;}
+ul#report{margin:0;padding: 0; width:547px; height:390px; overflow-y:auto; overflow-x:none; float: right; background-color:#fbfbfb;}
+li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;margin:10px;border: 1px solid #ccc; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+.report_row.hover{background-color:#e5e5e5;}
+.report_row.selected{background-color:#bdd1de; border-color: 1px solid #9bc3de;}
 
 /*REPORTS TEXT*/
 .report-text{width:420px; height: 45px; float:right; padding:27px 0 0 5px; font-size: small;}
 .walking_distance {padding: 0 10px 0 0;}
 
 /*REPORTS IMAGES*/
+.report-image{ width:64px; height:64px; display:block; margin: 5px; float:left; background-repeat: no-repeat background-position: center left; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+
 .all      .report_image {}
 .bixi     .report-image {background: url('../images/icons/bixi.png');}
 .grocery  .report-image {background: url('https://foursquare.com/img/categories/shops/food_grocery_64.png');}
