@@ -3,7 +3,7 @@
 
 * {margin: 0;}
 html, body { height: 100% }
-body {margin: 0px; padding: 0px; text-align:center;font-family: 'Cabin', arial, serif; background-color:#fbfbfb;}
+body {margin: 0px; padding: 0px; text-align:center;font-family: 'Cabin', arial, serif; background-color:#bdd1de;}
 h1, h2, h3, h4, p, label{padding:5px 10px;}
 li{list-style:none;margin:0;padding:0;}
 
@@ -17,10 +17,11 @@ li{list-style:none;margin:0;padding:0;}
 .clear_float{clear:both;width:1px;height:1px;}
 
 /*SEARCH FORM*/
-#search_form{margin: 0 0 10px 0;}
+#search {width: 400px;}
+#search_form{margin: 0 0 10px 0; text-align: center;}
 
 /*GOOGLE MAP*/
-#map_canvas {text-align: center; width: 393px; height: 390px; margin: 1px 0 0 0; float:left;border-right: 1px solid #ccc;}
+#map_canvas {text-align: center; width: 393px; height: 390px; margin: 1px 0 0 0; float:left;border-right: 1px solid #ccc;background-color:#fbfbfb;}
 
 /*REPORTS*/
 ul#report{margin:0;padding: 0; width:547px; height:390px; overflow-y:auto; overflow-x:none; float: right; background-color:#fbfbfb;}
@@ -50,11 +51,3 @@ li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;
 #footer{background-color:#ccc; margin: 0 0 10px 0;}
 #footer p{margin:0; padding:10px;}
 #footer {height: 40px;}
-
-#search {
-  width: 400px;
-}
-
-#search_form {
-  text-align: center;
-}
