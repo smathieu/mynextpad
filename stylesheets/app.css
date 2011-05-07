@@ -12,13 +12,13 @@ li{list-style:none;margin:0;padding:0;}
 #header{height:100px;background: #efefef url('../images/logo/mynextpad-logo-300px.png') no-repeat center center;}
 #content{margin: 0; border-bottom: 1px solid #ccc; background-color:#efefef;}
 #content h2{text-align:center; font-family: 'Cafeta';font-size:22px;}
-#submit{font-family: 'Cafeta'; font-size: 12px;}
 .error {color: red;}
 .clear_float{clear:both;width:1px;height:1px;}
 
 /*SEARCH FORM*/
-#search {width: 400px;}
+#search {width: 375px;}
 #search_form{margin: 0 0 10px 0; text-align: center;}
+#submit{font-family: 'Cafeta'; font-size: 12px;}
 
 /*GOOGLE MAP*/
 #map_canvas {text-align: center; width: 393px; height: 390px; margin: 1px 0 0 0; float:left;border-right: 1px solid #ccc;background-color:#fbfbfb;}
@@ -47,6 +47,8 @@ li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;
 .bus      .report-image {background: url('https://foursquare.com/img/categories/travel/busstation_64.png');}
 .park     .report-image {background: url('https://foursquare.com/img/categories/parks_outdoors/default_64.png');}
 .food     .report-image {background: url('https://foursquare.com/img/categories/food/default_64.png');}
+.convenience .report-image {background: url('https://foursquare.com/img/categories/shops/default_64.png');}
+.drugstore .report-image {background: url('https://foursquare.com/img/categories/shops/drugstore.png');}
 
 /*FOOTER*/
 #footer{background-color:#efefef; margin: 0 0 10px 0; border-top: 1px solid #ccc;}
