@@ -22,3 +22,7 @@ li.report_row div.report-image{ width:80px; height:80px; display:block; padding:
 .grocery .report-text{float: left;}
 #footer{background-color:#ccc; margin: 0 0 10px 0;}
 #footer, .push {height: 80px; /* .push must be the same height as #footer */}
+
+.walking_distance {
+  float:right;
+}
