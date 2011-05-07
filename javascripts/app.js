@@ -240,7 +240,7 @@ $(function() {
     foursquare.getBusStopsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 5);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name, undefined, {icon : item.categories[0].icon});
+        placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name, undefined, {icon : dat[0].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('bus', "The closest Bus station is " + dat[0].name);
@@ -252,7 +252,7 @@ $(function() {
     foursquare.getMetroStopsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name, undefined, {icon : item.categories[0].icon});
+        placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name, undefined, {icon : dat[0].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('metro', "The closest Metro station is " + dat[0].name);
