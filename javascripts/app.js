@@ -62,11 +62,17 @@ $(function() {
   var markers = {};
   var main_marker;
 
-  var selected_key = 'all';
+  var selected_key;
 
   $.each(MARKER_KEYS, function(i, key) {
     markers[key] = []
   });
+
+  function setSelected(key) {
+    selected_key = key;
+    $('.report_row').removeClass('selected');
+    $('.report_row.' + key).addClass('selected');
+  }
 
   function hideMarkersFor(key) {
     if (key == 'all') {
@@ -162,15 +168,17 @@ $(function() {
       .mouseenter(function() {
         hideMarkers();
         showMarkersFor(key);
+        $(this).addClass('hover');
       })
       .mouseleave(function() {
         hideMarkers();
         showMarkersFor(selected_key);
+        $(this).removeClass('hover');
       })
       .click(function() {
         hideMarkers();
         showMarkersFor(key);
-        selected_key = key;
+        setSelected(key);
       })
     .appendTo($('#report'));
   }
@@ -305,9 +313,7 @@ $(function() {
   function codeAddress(address) {
     resetMarkers();
     resetReports();
-    selected_key = 'all';
     $('#search').removeClass('error');
-
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -319,6 +325,7 @@ $(function() {
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
         addReportRow('all', "Show all markers");
+        setSelected('all');
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
