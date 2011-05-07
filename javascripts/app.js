@@ -187,7 +187,7 @@ $(function() {
   }
 
   function add_walking_time (key, time) {
-    $('#' + key + '_row .report-text').append($('<span>', {
+    $('#' + key + '_row').append($('<div>', {
       'class': 'walking_distance'
     }).append(time));
   }
