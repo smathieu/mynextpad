@@ -61,14 +61,28 @@ $(function() {
   var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus']
   var markers = {};
   var main_marker;
+
+  var selected_key;
+
   $.each(MARKER_KEYS, function(i, key) {
     markers[key] = []
   });
 
+  function setSelected(key) {
+    selected_key = key;
+    $('.report_row').removeClass('selected');
+    $('.report_row.' + key).addClass('selected');
+  }
+
   function hideMarkersFor(key) {
-    $.each(markers[key], function(i, marker) {
-      marker.setMap(null);
-    });
+    if (key == 'all') {
+      hideMarkers();
+    }
+    else {
+      $.each(markers[key], function(i, marker) {
+        marker.setMap(null);
+      });
+    }
   }
 
   function hideMarkers() {
@@ -78,14 +92,24 @@ $(function() {
   }
 
   function resetMarkersFor(key) {
-    hideMarkers(key);
-    markers[key] = [];
+    if (key == 'all') {
+      resetMarkers();
+    }
+    else {
+      hideMarkers(key);
+      markers[key] = [];
+    }
   }
 
   function showMarkersFor(key) {
-    $.each(markers[key], function(i, marker) {
-      marker.setMap(map);
-    });
+    if (key == 'all') {
+      showMarkers();
+    }
+    else {
+      $.each(markers[key], function(i, marker) {
+        marker.setMap(map);
+      });
+    }
   }
 
   function showMarkers() {
@@ -134,25 +158,30 @@ $(function() {
   function addReportRow(key, text) {
     return $('<li>', {
         id: key + '_row',
-        'data-hovertype': key,
         'class': 'report_row ' + key,
-      }).append($('<div class="report-image"/>'))
+      })
+      .append($('<div class="report-image"/>'))
       .append($('<div />', {
         'class': 'report-text',
-      }).text(text))
-      .appendTo($('#report'));
+      })
+      .text(text))
+      .mouseenter(function() {
+        hideMarkers();
+        showMarkersFor(key);
+        $(this).addClass('hover');
+      })
+      .mouseleave(function() {
+        hideMarkers();
+        showMarkersFor(selected_key);
+        $(this).removeClass('hover');
+      })
+      .click(function() {
+        hideMarkers();
+        showMarkersFor(key);
+        setSelected(key);
+      })
+    .appendTo($('#report'));
   }
-
-  $("[data-hovertype]").live('hover', function(event) {
-    hideMarkers();
-    var el = $(this);
-    var key = el.data('hovertype')
-    if (key == 'all') {
-      showMarkers();
-    } else {
-      showMarkersFor(key);
-    }
-  });
 
   function add_walking_time (key, time) {
     $('#' + key + '_row').append($('<div>', { 
@@ -285,7 +314,6 @@ $(function() {
     resetMarkers();
     resetReports();
     $('#search').removeClass('error');
-
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -297,6 +325,7 @@ $(function() {
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
         addReportRow('all', "Show all markers");
+        setSelected('all');
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);

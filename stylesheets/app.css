@@ -2,25 +2,42 @@
 * {margin: 0;}
 html, body { height: 100% }
 body {margin: 0px; padding: 0px; text-align:center;}
-
 h1, h2, h3, h4, p, label{padding:5px 10px;}
 li{list-style:none;margin:0;padding:0;}
 
 /*...AND THEN CAME MORE STYLES...*/
 #container{width:960px; margin: 0 auto; text-align:left; min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -50px; /* the bottom margin is the negative value of the footer's height */}
 #header{background-color:#ccc;}
-.error {
-  color: red;
-}
+h1 span{color:#003AB5;}
 #content{border: 1px solid #ccc;}
+.error {color: red;}
+.clear_float{clear:both;}
+
+/*SEARCH FORM*/
 #search_form{margin: 0 0 10px 0;}
-#map_canvas {text-align: center; width: 960px; height: 400px;}
+
+/*GOOGLE MAP*/
+#map_canvas {text-align: center; width: 959px; height: 400px;}
+
+/*REPORTS*/
 #report{margin:10px 0 0 0;padding: 0;}
 li.report_row{width:924px; height: 90px; background-color:#ccc; padding: 5px;margin:10px;border: 1px solid #888;}
-.report-image{ width:70px; height:70px; display:block; margin: 10px; float:left; border: 1px solid #888;}
-.report-text{width:810px; height: 70px; padding: 10px; float:right; vertical-align:middle;}
-.report-image .grocery{background-image: url('/images/icons/grocery-icon.png');background-repeat: no-repeat: background-position: center;}
-.report-image .bixi{}
+.report-image{ width:70px; height:70px; display:block; margin: 10px; float:left; border: 1px solid #888; background-repeat: no-repeat background-position: center left;}
+
+/*REPORTS TEXT*/
+.report-text{width:810px; height: 70px; padding: 10px; float:right; padding:35px 0 0 0;}
+
+/*REPORTS IMAGES*/
+.report-image .bixi{background: url('/images/icons/bixi-icon.png');}
+.report-image .grocery{background: url('/images/icons/grocery-icon.png');}
+.report-image .police{background: url('/images/icons/police-icon.png');}
+.report-image .hospital{background: url('/images/icons/hospital-icon.png');}
+.report-image .fire{background: url('/images/icons/fire-icon.png');}
+.report-image .gym{background: url('/images/icons/gym-icon.png');}
+.report-image .metro{background: url('/images/icons/metro-icon.png');}
+.report-image .bus{background: url('/images/icons/bus-icon.png');}
+
+/*FOOTER*/
 #footer{background-color:#ccc; margin: 0 0 10px 0;}
 #footer, .push {height: 80px; /* .push must be the same height as #footer */}
 
