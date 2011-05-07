@@ -23,3 +23,7 @@ li.report_row{width:924px; height: 90px; background-color:#ccc; padding: 5px;mar
 .report-image .bixi{}
 #footer{background-color:#ccc; margin: 0 0 10px 0;}
 #footer, .push {height: 80px; /* .push must be the same height as #footer */}
+
+.walking_distance {
+  float:right;
+}
