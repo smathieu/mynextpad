@@ -68,6 +68,30 @@ $(function() {
     });
   }
 
+  function showMarkersFor(key) {
+    $.each(markers[key], function(i, marker) {
+      marker.setMap(map);
+    });
+  }
+
+  function showMarkers() {
+    if (main_marker) {
+      main_marker.setMap(map);
+    }
+    $.each(MARKER_KEYS, function(i, key) {
+      showMarkersFor(key);
+    });
+  };
+
+  function resetMarkers() {
+    if (main_marker) {
+      main_marker.setMap(null);
+    }
+    $.each(MARKER_KEYS, function(i, key) {
+      resetMarkersFor(key);
+    });
+  };
+
   function placeMarker(key, loc, name, content, options) {
     if (!content) content = name;
 
@@ -90,18 +114,20 @@ $(function() {
     markers[key].push(mark);
   }
 
-  function resetMarkers() {
-    if (main_marker) {
-      main_marker.setMap(null);
-    }
-    $.each(MARKER_KEYS, function(i, key) {
-      resetMarkersFor(key);
-    });
-  };
-
   function resetReports() {
     $('#report').html('')
   }
+
+  $("[data-hovertype]").live('hover', function(event) {
+    resetMarkers();
+    var el = $(this);
+    var key = el.data('hovertype')
+    if (event.type == 'mouseout') {
+      showMarkers();
+    } else {
+      showMarkersFor(key);
+    }
+  });
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
@@ -118,6 +144,7 @@ $(function() {
 
       getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
         $('<li>', {
+          'data-hovertype': "bixi",
           'class': 'report_row grocery',
         }).append($('<img />'))
         .append("The closest grocery store is " + 
@@ -216,6 +243,8 @@ $(function() {
       }
     });
   }
+
+
 
   $('#search_form').submit(function(event) {
     event.preventDefault()
