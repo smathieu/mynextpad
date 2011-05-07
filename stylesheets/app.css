@@ -10,3 +10,7 @@ h1, h2, h3, h4, p, label{padding:5px 10px;}
 #search_form{}
 #map_canvas {text-align: center; width: 800px;height: 400px;}
 #footer{background-color:#ccc;}
+
+.error {
+  color: red;
+}
