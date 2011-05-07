@@ -9,7 +9,7 @@ var foursquare = (function(fs) {
 
   fs.getVenuesNear = function(lat, lng, callback, extra_args) {
     var latlng = lat + ',' + lng;
-    var params = $.extend(default_params, {ll: latlng});
+    var params = $.extend({}, default_params, {ll: latlng});
     if (extra_args) {
       params = $.extend(params, extra_args);
     }
