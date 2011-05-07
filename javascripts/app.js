@@ -65,10 +65,21 @@ $(function() {
     markers[key] = []
   });
 
-  function resetMarkersFor(key) {
+  function hideMarkersFor(key) {
     $.each(markers[key], function(i, marker) {
       marker.setMap(null);
     });
+  }
+
+  function hideMarkers() {
+    $.each(MARKER_KEYS, function(i, key) {
+      hideMarkersFor(key);
+    });
+  }
+
+  function resetMarkersFor(key) {
+    hideMarkers(key);
+    markers[key] = [];
   }
 
   function showMarkersFor(key) {
@@ -132,7 +143,7 @@ $(function() {
   }
 
   $("[data-hovertype]").live('hover', function(event) {
-    resetMarkers();
+    hideMarkers();
     var el = $(this);
     var key = el.data('hovertype')
     if (key == 'all') {
