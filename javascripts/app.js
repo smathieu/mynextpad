@@ -4,18 +4,22 @@ $.getJSON('bikeStations.json', function(data) {
   bixiData = data;
 });
 
-function closestBixi(latlng, num) {
-  var data = $.map(bixiData, function(dat, i) {
-    var lat = Math.abs(dat.lat - latlng.lat);
-    var lng = Math.abs(dat.lng - latlng.lng);
-    dat.dist = Math.sqrt(lat*lat + lng*lng );
-    return dat;
+function calcDistances(latlng, data) {
+  return $.map(data, function(dat, i) {
+    var d = $.extend({}, dat);
+    var loc = d.location?d.location:d;
+    var lat = Math.abs(loc.lat - latlng.lat);
+    var lng = Math.abs(loc.lng - latlng.lng);
+    d.dist = Math.sqrt(lat*lat + lng*lng );
+    return d;
   });
+}
 
+function closestItems(latlng, data, num) {
+  var data = calcDistances(latlng, data);
   data.sort(function(a, b) {
     return a.dist - b.dist;
   });
-
   return data.slice(0, num);
 }
 
@@ -97,7 +101,7 @@ $(function() {
         });
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-        var bixis = closestBixi(loc, 5);
+        var bixis = closestItems(loc, bixiData, 5);
 
         for (var i = 0, len = bixis.length; i < len; i++) {
           var latlng = new google.maps.LatLng(bixis[i].lat, bixis[i].lng);
@@ -108,7 +112,10 @@ $(function() {
           });
           markers.push(bixi_marker);
         }
-          
+        
+        foursquare.getBusStopsNear(marker.getPosition().lat(), marker.getPosition().lng(), function(items) {
+          var dat = closestItems(loc, items, 5);
+        });
 
       } else {
         alert("Geocode was not successful for the following reason: " + status);
