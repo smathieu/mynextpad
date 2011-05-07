@@ -32,7 +32,7 @@ li.report_row{width:500px; height: 70px; background-color:#ccc; padding: 5px;mar
 
 /*REPORTS IMAGES*/
 .all      .report_image {}
-.bixi     .report-image {background: url('../images/icons/bixi-icon.png');}
+.bixi     .report-image {background: url('../images/icons/bixi.png');}
 .grocery  .report-image {background: url('https://foursquare.com/img/categories/shops/food_grocery_64.png');}
 .police   .report-image {background: url('https://foursquare.com/img/categories/building/default_64.png');}
 .hospital .report-image {background: url('https://foursquare.com/img/categories/building/medical_hospital_64.png');}
