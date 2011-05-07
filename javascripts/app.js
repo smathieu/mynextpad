@@ -226,7 +226,7 @@ $(function() {
   function showLocalBixiStations(loc) {
     var bixis = closestItems(loc, bixi.stations, 5);
     for (var i = 0, len = bixis.length; i < len; i++) {
-      placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/biximarker.png'});
+      placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/markers/biximarker.png'});
     }
     var item = bixis[0];
     addReportRow('bixi', "The closest bixi station is at " + item.name);
@@ -351,17 +351,8 @@ $(function() {
   $('#search').val(default_search);
   codeAddress(default_search);
 
-  $('input').focus(function() {
-    if (this.value == this.defaultValue) {
-      this.value = ""
-    }
-  });
-
-  $('input').focusout(function() {
-    if (this.value == "") {
-      this.value = this.defaultValue;
-    }
-  });
+  $('#submit').button();
+  
 });
 
 
