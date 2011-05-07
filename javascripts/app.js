@@ -33,7 +33,6 @@ $(function() {
         callback(duration);
       }
     });
-
   }
 
   var log = function(msg) {
@@ -102,6 +101,13 @@ $(function() {
   function resetReports() {
     $('#report').html('')
   }
+  function addReportRow(key, text) {
+    return $('<li>', {
+        'class': 'report_row ' + key,
+      }).append($('<div class="report-image"/>'))
+      .append(text)
+      .appendTo($('#report'));
+  }
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
@@ -117,15 +123,13 @@ $(function() {
       var dest_latlng = new google.maps.LatLng(loc.lat, loc.lng);
 
       getWalkingTime(orig_latlng, dest_latlng, function(walking_time) {
-        $('<li>', {
-          'class': 'report_row grocery',
-        }).append($('<img />'))
-        .append("The closest grocery store is " + 
+        addReportRow('grocery', 
+          "The closest grocery store is " +
           items[0].name +
           " and is located " +
-          items[0].location.distance + 
-          " ft from your address.")
-        .appendTo($('#report'));
+          items[0].location.distance +
+          " ft from your address."
+         );
       });
     });
   }
