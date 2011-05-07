@@ -48,6 +48,7 @@ li.report_row{width:431px; height: 74px; background-color:#dedede; padding: 5px;
 .metro    .report-image {background: url('https://foursquare.com/img/categories/travel/subway_64.png');}
 .bus      .report-image {background: url('https://foursquare.com/img/categories/travel/busstation_64.png');}
 .park     .report-image {background: url('https://foursquare.com/img/categories/parks_outdoors/default_64.png');}
+.school   .report-image {background: url('https://foursquare.com/img/categories/building/default_64.png');}
 .food     .report-image {background: url('https://foursquare.com/img/categories/food/default_64.png');}
 .convenience .report-image {background: url('https://foursquare.com/img/categories/shops/default_64.png');}
 .drugstore .report-image {background: url('https://foursquare.com/img/categories/shops/drugstore.png');}
