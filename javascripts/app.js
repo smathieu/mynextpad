@@ -320,7 +320,7 @@ $(function() {
     foursquare.getParksNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('park', dat[i].location, 'Park at ' + dat[i].name);
+        placeMarker('park', dat[i].location, 'Park at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('park', "The closest Park is " + dat[0].name);
