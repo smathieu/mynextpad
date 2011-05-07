@@ -57,5 +57,15 @@ var foursquare = (function(fs) {
     fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
   }
 
+  fs.getConvenienceStoresNear = function(lat, lng, cb) {
+    var cat = '4d954b0ea243a5684a65b473';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+
+  fs.getDrugstoresNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d10f951735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+
   return fs;
 })(foursquare || {});
