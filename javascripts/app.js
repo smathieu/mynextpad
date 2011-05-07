@@ -129,7 +129,7 @@ $(function() {
     resetMarkers();
     var el = $(this);
     var key = el.data('hovertype')
-    if (event.type == 'mouseout') {
+    if (key == 'all') {
       showMarkers();
     } else {
       showMarkersFor(key);
@@ -235,6 +235,7 @@ $(function() {
         showLocalGroceryStores(marker.getPosition().lat(), marker.getPosition().lng());
 
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
+        addReportRow('all', "Show all markerss");
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
         showLocalMetroStops(loc.lat, loc.lng);
