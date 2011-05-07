@@ -58,7 +58,7 @@ $(function() {
     size: new google.maps.Size(50,50)
   });
 
-  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus', 'park']
+  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus', 'park', 'food']
   var markers = {};
   var main_marker;
 
@@ -329,6 +329,36 @@ $(function() {
     });
   }
 
+  function showLocalFood(lat, lng) {
+    foursquare.getVenuesNear(lat, lng, function(data) {
+
+      // Filter for things with under the primary category 'Food'
+      items = data.filter(function(val) {
+        var cats = val.categories;
+        for (var i = 0; i < cats.length; i++) {
+          var parents = cats[i].parents;
+          for (var j = 0; j < parents.length; j++) {
+            if (parents[j] == 'Food') {
+              return true;
+            }
+          }
+        }
+        return false;
+      });
+
+      for (var i = 0; i < 20; i++) {
+        if (items[i]) {
+          placeMarker('food', items[i].location, 'Food at ' + items[i].name, undefined, {icon: 'https://foursquare.com/img/categories/food/default.png'});
+        }
+      }
+      if (items[0]) {
+        addReportRow('food', "The closest Food place is " + items[0].name);
+        fs_add_walking_time('food', lat, lng, items[0].location);
+      }
+
+    }, {query: 'food'});
+  }
+
   function codeAddress(address) {
     resetMarkers();
     resetReports();
@@ -356,6 +386,7 @@ $(function() {
         showLocalFireStations(loc.lat, loc.lng);
         showLocalHospitals(loc.lat, loc.lng);
         showLocalParks(loc.lat, loc.lng);
+        showLocalFood(loc.lat, loc.lng);
       } else {
         $('#search').addClass('error');
       }
