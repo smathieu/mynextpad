@@ -58,7 +58,7 @@ $(function() {
     size: new google.maps.Size(50,50)
   });
 
-  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus']
+  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus', 'park']
   var markers = {};
   var main_marker;
 
@@ -227,9 +227,13 @@ $(function() {
   }
 
   function showLocalBixiStations(loc) {
+    var bixis = closestItems(loc, bixi.stations, 20).filter(function(i) {return i.dist < 0.02});
+    if (bixis.length == 0) return;
     var bixis = closestItems(loc, bixi.stations, 20);
     for (var i = 0, len = bixis.length; i < len; i++) {
-      placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/markers/biximarker.png'});
+      if (bixis[i].dist < 0.01) {
+        placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/markers/biximarker.png'});
+      }
     }
     var item = bixis[0];
     addReportRow('bixi', "The closest bixi station is at " + item.name);
@@ -312,6 +316,18 @@ $(function() {
     });
   }
 
+  function showLocalParks(lat, lng) {
+    foursquare.getParksNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('park', dat[i].location, 'Park at ' + dat[i].name);
+      }
+      if (dat[0]) {
+        addReportRow('park', "The closest Park is " + dat[0].name);
+        fs_add_walking_time('park', lat, lng, dat[0].location);
+      }
+    });
+  }
 
   function codeAddress(address) {
     resetMarkers();
@@ -339,6 +355,7 @@ $(function() {
         showLocalPoliceStations(loc.lat, loc.lng);
         showLocalFireStations(loc.lat, loc.lng);
         showLocalHospitals(loc.lat, loc.lng);
+        showLocalParks(loc.lat, loc.lng);
       } else {
         $('#search').addClass('error');
       }
