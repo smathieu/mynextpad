@@ -240,7 +240,7 @@ $(function() {
         placeMarker('fire', dat[i].location, 'Fire Station at ' + dat[i].name);
       }
       if (dat[0]) {
-        addReportRow('hospital', "The closest Fire station is " + dat[0].name);
+        addReportRow('fire', "The closest Fire station is " + dat[0].name);
       }
     });
   }
@@ -252,7 +252,7 @@ $(function() {
         placeMarker('police', dat[i].location, 'Police station at ' + dat[i].name);
       }
       if (dat[0]) {
-        addReportRow('hospital', "The closest Police station is " + dat[0].name);
+        addReportRow('police', "The closest Police station is " + dat[0].name);
       }
     });
   }
