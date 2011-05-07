@@ -18,8 +18,13 @@ $(function() {
     });
   };
 
+  function resetReports() {
+    $('#report').html('')
+  }
+
   function codeAddress(address) {
     resetMarkers();
+    resetReports();
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -42,6 +47,14 @@ $(function() {
             });
             markers.push(grocery_marker);
           };
+
+          $('#report').append("<div class='report_row'>The closest grocery store is " + 
+            items[0].name +
+            " and is located " +
+            items[0].location.distance + 
+            " ft from your address." +
+            "</div>");
+            
         });
         
       } else {
