@@ -161,10 +161,12 @@ $(function() {
         'class': 'report_row ' + key,
       })
       .append($('<div class="report-image"/>'))
-      .append($('<div />', {
-        'class': 'report-text',
-      })
-      .text(text))
+      .append(
+        $('<div />', {
+          'class': 'report-text',
+        })
+        .text(text)
+      )
       .mouseenter(function() {
         hideMarkers();
         showMarkersFor(key);
@@ -184,7 +186,7 @@ $(function() {
   }
 
   function add_walking_time (key, time) {
-    $('#' + key + '_row').append($('<div>', { 
+    $('#' + key + '_row .report-text').append($('<span>', {
       'class': 'walking_distance'
     }).append(time));
   }
