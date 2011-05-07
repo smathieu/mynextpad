@@ -192,8 +192,8 @@ $(function() {
       var dat = closestItems({lat: lat, lng: lng}, items, 2);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('gym', dat[i].location, 'Gym at ' + dat[i].name);
-      addReportRow('gym', "Gyms");
       }
+      addReportRow('gym', "Gyms");
     });
   }
 
