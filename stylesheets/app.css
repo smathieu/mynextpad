@@ -30,12 +30,12 @@ li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;
 
 /*REPORTS TEXT*/
 .report-text{width:420px; height: 45px; float:right; padding:27px 0 0 5px; font-size: small;}
-.walking_distance {padding: 0 10px 0 0;}
+.walking_distance {width: min-width:30px; height:24px; float:right; font-size: 12px; background: url('../images/icons/walking.png'); background-repeat: no-repeat; padding: 0 10px 0 30px;}
 
 /*REPORTS IMAGES*/
 .report-image{ width:64px; height:64px; display:block; margin: 5px; float:left; background-repeat: no-repeat background-position: center left; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
 
-.all      .report_image {}
+.all      .report-image {background: url('../images/icons/all.png');}
 .bixi     .report-image {background: url('../images/icons/bixi.png');}
 .grocery  .report-image {background: url('https://foursquare.com/img/categories/shops/food_grocery_64.png');}
 .police   .report-image {background: url('https://foursquare.com/img/categories/building/default_64.png');}
@@ -44,18 +44,12 @@ li.report_row{width:500px; height: 74px; background-color:#dedede; padding: 5px;
 .gym      .report-image {background: url('https://foursquare.com/img/categories/building/gym_64.png');}
 .metro    .report-image {background: url('https://foursquare.com/img/categories/travel/subway_64.png');}
 .bus      .report-image {background: url('https://foursquare.com/img/categories/travel/busstation_64.png');}
+.park     .report-image {background: url('https://foursquare.com/img/categories/parks_outdoors/default_64.png');}
 
 /*FOOTER*/
 #footer{background-color:#ccc; margin: 0 0 10px 0;}
 #footer p{margin:0; padding:10px;}
 #footer {height: 40px;}
-
-.walking_distance {
-  float:right;
-  background: url('../images/icons/walking.png');
-  background-repeat: no-repeat;
-  padding-left: 30px;
-}
 
 #search {
   width: 400px;

@@ -9,7 +9,7 @@ var foursquare = (function(fs) {
 
   fs.getVenuesNear = function(lat, lng, callback, extra_args) {
     var latlng = lat + ',' + lng;
-    var params = $.extend(default_params, {ll: latlng});
+    var params = $.extend({}, default_params, {ll: latlng});
     if (extra_args) {
       params = $.extend(params, extra_args);
     }
@@ -50,6 +50,10 @@ var foursquare = (function(fs) {
   }
   fs.getFireNear = function(lat, lng, cb) {
     var cat = '4bf58dd8d48988d12c941735';
+    fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
+  }
+  fs.getParksNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d163941735';
     fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
   }
 
