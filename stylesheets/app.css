@@ -28,14 +28,15 @@ li.report_row{width:924px; height: 90px; background-color:#ccc; padding: 5px;mar
 .report-text{width:810px; height: 70px; padding: 10px; float:right; padding:35px 0 0 0;}
 
 /*REPORTS IMAGES*/
+.all      .report_image {}
 .bixi     .report-image {background: url('../images/icons/bixi-icon.png');}
-.grocery  .report-image {background: url('../images/icons/grocery-icon.png');}
-.police   .report-image {background: url('../images/icons/police-icon.png');}
-.hospital .report-image {background: url('../images/icons/hospital-icon.png');}
-.fire     .report-image {background: url('../images/icons/fire-icon.png');}
-.gym      .report-image {background: url('../images/icons/gym-icon.png');}
-.metro    .report-image {background: url('../images/icons/metro-icon.png');}
-.bus      .report-image {background: url('../images/icons/bus-icon.png');}
+.grocery  .report-image {background: url('https://foursquare.com/img/categories/shops/food_grocery_64.png');}
+.police   .report-image {background: url('https://foursquare.com/img/categories/building/default_64.png');}
+.hospital .report-image {background: url('https://foursquare.com/img/categories/building/medical_hospital_64.png');}
+.fire     .report-image {background: url('https://foursquare.com/img/categories/building/government_firestation_64.png');}
+.gym      .report-image {background: url('https://foursquare.com/img/categories/building/gym_64.png');}
+.metro    .report-image {background: url('https://foursquare.com/img/categories/travel/subway_64.png');}
+.bus      .report-image {background: url('https://foursquare.com/img/categories/travel/busstation_64.png');}
 
 /*FOOTER*/
 #footer{background-color:#ccc; margin: 0 0 10px 0;}
