@@ -115,6 +115,42 @@ $(function() {
       }
     });
   }
+  function showLocalGyms(lat, lng) {
+    foursquare.getGymsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker(dat[i].location, 'Gym at ' + dat[i].name);
+      }
+    });
+  }
+
+ function showLocalHospitals(lat, lng) {
+    foursquare.getHospitalsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker(dat[i].location, 'Hospital at ' + dat[i].name);
+      }
+    });
+  }
+
+ function showLocalFireStations(lat, lng) {
+    foursquare.getFireNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker(dat[i].location, 'Fire Station at ' + dat[i].name);
+      }
+    });
+  }
+
+ function showLocalPoliceStations(lat, lng) {
+    foursquare.getPoliceNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker(dat[i].location, 'Police station at ' + dat[i].name);
+      }
+    });
+  }
+
 
   function codeAddress(address) {
     resetMarkers();
@@ -133,6 +169,10 @@ $(function() {
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
         showLocalMetroStops(loc.lat, loc.lng);
+        showLocalGyms(loc.lat, loc.lng);
+        showLocalPoliceStations(loc.lat, loc.lng);
+        showLocalFireStations(loc.lat, loc.lng);
+        showLocalHospitals(loc.lat, loc.lng);
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
