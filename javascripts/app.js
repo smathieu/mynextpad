@@ -202,7 +202,7 @@ $(function() {
 
   function showLocalGroceryStores (lat, lng) {
     foursquare.getGroceryStoresNear(lat, lng, function(items) {
-      items = closestItems({lat: lat, lng:lng}, items, 5);
+      items = closestItems({lat: lat, lng:lng}, items, 15);
       for (var i = 0; i < 5; i++) {
         var item = items[i];
         if (item) {
@@ -227,7 +227,7 @@ $(function() {
   }
 
   function showLocalBixiStations(loc) {
-    var bixis = closestItems(loc, bixi.stations, 5);
+    var bixis = closestItems(loc, bixi.stations, 20);
     for (var i = 0, len = bixis.length; i < len; i++) {
       placeMarker('bixi', bixis[i], 'Bixi station at ' + bixis[i].name, undefined, {icon: 'images/markers/biximarker.png'});
     }
@@ -238,9 +238,9 @@ $(function() {
 
   function showLocalBusStops(lat, lng) {
     foursquare.getBusStopsNear(lat, lng, function(items) {
-      var dat = closestItems({lat: lat, lng: lng}, items, 5);
+      var dat = closestItems({lat: lat, lng: lng}, items, 20);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name, undefined, {icon : dat[0].categories[0].icon});
+        placeMarker('bus', dat[i].location, 'Bus station at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('bus', "The closest Bus station is " + dat[0].name);
@@ -250,9 +250,9 @@ $(function() {
   }
   function showLocalMetroStops(lat, lng) {
     foursquare.getMetroStopsNear(lat, lng, function(items) {
-      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      var dat = closestItems({lat: lat, lng: lng}, items, 10);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name, undefined, {icon : dat[0].categories[0].icon});
+        placeMarker('metro', dat[i].location, 'Metro station at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
       if (dat[0]) {
         addReportRow('metro', "The closest Metro station is " + dat[0].name);
@@ -262,7 +262,7 @@ $(function() {
   }
   function showLocalGyms(lat, lng) {
     foursquare.getGymsNear(lat, lng, function(items) {
-      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      var dat = closestItems({lat: lat, lng: lng}, items, 10);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('gym', dat[i].location, 'Gym at ' + dat[i].name, undefined, {icon: dat[i].categories[0].icon});
       }
@@ -275,7 +275,7 @@ $(function() {
 
   function showLocalHospitals(lat, lng) {
     foursquare.getHospitalsNear(lat, lng, function(items) {
-      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      var dat = closestItems({lat: lat, lng: lng}, items, 5);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('hospital', dat[i].location, 'Hospital at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
@@ -288,7 +288,7 @@ $(function() {
 
  function showLocalFireStations(lat, lng) {
     foursquare.getFireNear(lat, lng, function(items) {
-      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      var dat = closestItems({lat: lat, lng: lng}, items, 5);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('fire', dat[i].location, 'Fire Station at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
@@ -301,7 +301,7 @@ $(function() {
 
  function showLocalPoliceStations(lat, lng) {
     foursquare.getPoliceNear(lat, lng, function(items) {
-      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      var dat = closestItems({lat: lat, lng: lng}, items, 5);
       for (var i = 0, len = dat.length; i < len; i++) {
         placeMarker('police', dat[i].location, 'Police station at ' + dat[i].name, undefined, {icon : dat[i].categories[0].icon});
       }
