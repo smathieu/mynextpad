@@ -9,6 +9,9 @@ $(function() {
 
   var map = new google.maps.Map(document.getElementById("map_canvas"), map_options)
   var geocoder = new google.maps.Geocoder();
+  var infowindow = new google.maps.InfoWindow({ 
+    size: new google.maps.Size(50,50)
+  });
 
   var markers = [];
 
@@ -40,11 +43,21 @@ $(function() {
             var item = items[i];
             var loc = item.location;
             var latlng = new google.maps.LatLng(loc.lat, loc.lng);
-            var grocery_marker = marker = new google.maps.Marker({
+            var grocery_marker = new google.maps.Marker({
                 map: map,
                 position: latlng,
                 title: item.name
             });
+
+            google.maps.event.addListener(grocery_marker, 'click', (function(marker, item) {
+              return function() {
+                infowindow.close();
+                infowindow.setContent(item.name);
+                infowindow.setPosition(marker.getPosition());
+                infowindow.open(map, marker);
+              }
+            })(grocery_marker, item));
+            
             markers.push(grocery_marker);
           };
 
