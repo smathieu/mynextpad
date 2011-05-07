@@ -58,7 +58,7 @@ $(function() {
     size: new google.maps.Size(50,50)
   });
 
-  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus', 'park', 'food']
+  var MARKER_KEYS = ['bixi', 'grocery', 'police', 'hospital', 'fire', 'gym', 'metro', 'bus', 'park', 'school', 'food']
   var markers = {};
   var main_marker;
 
@@ -329,6 +329,20 @@ $(function() {
     });
   }
 
+  function showLocalSchools(lat, lng) {
+    foursquare.getSchoolsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 10);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker('school', dat[i].location, 'School at ' + dat[i].name, undefined, {icon: 'https://foursquare.com/img/categories/building/default.png'});
+      }
+      if (dat[0]) {
+        addReportRow('school', "The closest School is " + dat[0].name);
+        fs_add_walking_time('school', lat, lng, dat[0].location);
+      }
+    });
+  }
+
+
   function showLocalFood(lat, lng) {
     foursquare.getVenuesNear(lat, lng, function(data) {
 
@@ -386,6 +400,7 @@ $(function() {
         showLocalFireStations(loc.lat, loc.lng);
         showLocalHospitals(loc.lat, loc.lng);
         showLocalParks(loc.lat, loc.lng);
+        showLocalSchools(loc.lat, loc.lng);
         showLocalFood(loc.lat, loc.lng);
       } else {
         $('.error').show();

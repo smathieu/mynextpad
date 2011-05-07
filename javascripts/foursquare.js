@@ -56,6 +56,10 @@ var foursquare = (function(fs) {
     var cat = '4bf58dd8d48988d163941735';
     fs.getVenuesNear(lat, lng, cb, {categoryId: cat});
   }
+  fs.getSchoolsNear = function(lat, lng, cb) {
+    var cat = '4bf58dd8d48988d13b941735';
+    fs.getVenuesNear(lat, lng, cb, { categoryId: cat });
+  }
 
   return fs;
 })(foursquare || {});
