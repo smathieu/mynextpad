@@ -68,14 +68,30 @@ $(function() {
     markers[key] = []
   });
 
-  function resetMarkersFor(key) {
+  function hideMarkersFor(key) {
     if (key == 'all') {
-      resetMarkers();
+      hideMarkers();
     }
     else {
       $.each(markers[key], function(i, marker) {
         marker.setMap(null);
       });
+    }
+  }
+
+  function hideMarkers() {
+    $.each(MARKER_KEYS, function(i, key) {
+      hideMarkersFor(key);
+    });
+  }
+
+  function resetMarkersFor(key) {
+    if (key == 'all') {
+      resetMarkers();
+    }
+    else {
+      hideMarkers(key);
+      markers[key] = [];
     }
   }
 
@@ -143,15 +159,15 @@ $(function() {
       })
       .text(text))
       .mouseenter(function() {
-        resetMarkers();
+        hideMarkers();
         showMarkersFor(key);
       })
       .mouseleave(function() {
-        resetMarkers();
+        hideMarkers();
         showMarkersFor(selected_key);
       })
       .click(function() {
-        resetMarkers();
+        hideMarkers();
         showMarkersFor(key);
         selected_key = key;
       })
@@ -267,6 +283,8 @@ $(function() {
     resetMarkers();
     resetReports();
     selected_key = 'all';
+    $('#search').removeClass('error');
+
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -287,7 +305,7 @@ $(function() {
         showLocalFireStations(loc.lat, loc.lng);
         showLocalHospitals(loc.lat, loc.lng);
       } else {
-        alert("Geocode was not successful for the following reason: " + status);
+        $('#search').addClass('error');
       }
     });
   }
