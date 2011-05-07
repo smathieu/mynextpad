@@ -137,6 +137,7 @@ $(function() {
     var marker_params = {
       map: map,
       position: latlng,
+      zIndex: 0,
       title: name
     };
     marker_params = $.extend(marker_params, options);
@@ -321,7 +322,9 @@ $(function() {
         map.setCenter(results[0].geometry.location);
         main_marker = new google.maps.Marker({
             map: map,
-            position: results[0].geometry.location
+            position: results[0].geometry.location,
+            zIndex: 200,
+            icon: 'images/markers/green-dot.png'
         });
         var marker = main_marker;
 
