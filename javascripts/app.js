@@ -99,7 +99,15 @@ $(function() {
     foursquare.getBusStopsNear(lat, lng, function(items) {
       var dat = closestItems({lat: lat, lng: lng}, items, 5);
       for (var i = 0, len = dat.length; i < len; i++) {
-        placeMarker(dat[i].location, 'Bus stations at ' + dat[i].name);
+        placeMarker(dat[i].location, 'Bus station at ' + dat[i].name);
+      }
+    });
+  }
+  function showLocalMetroStops(lat, lng) {
+    foursquare.getMetroStopsNear(lat, lng, function(items) {
+      var dat = closestItems({lat: lat, lng: lng}, items, 2);
+      for (var i = 0, len = dat.length; i < len; i++) {
+        placeMarker(dat[i].location, 'Metro station at ' + dat[i].name);
       }
     });
   }
@@ -120,6 +128,7 @@ $(function() {
         var loc = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
         showLocalBixiStations(loc);
         showLocalBusStops(loc.lat, loc.lng);
+        showLocalMetroStops(loc.lat, loc.lng);
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
