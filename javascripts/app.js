@@ -65,10 +65,21 @@ $(function() {
     markers[key] = []
   });
 
-  function resetMarkersFor(key) {
+  function hideMarkersFor(key) {
     $.each(markers[key], function(i, marker) {
       marker.setMap(null);
     });
+  }
+
+  function hideMarkers() {
+    $.each(MARKER_KEYS, function(i, key) {
+      hideMarkersFor(key);
+    });
+  }
+
+  function resetMarkersFor(key) {
+    hideMarkers(key);
+    markers[key] = [];
   }
 
   function showMarkersFor(key) {
@@ -132,7 +143,7 @@ $(function() {
   }
 
   $("[data-hovertype]").live('hover', function(event) {
-    resetMarkers();
+    hideMarkers();
     var el = $(this);
     var key = el.data('hovertype')
     if (key == 'all') {
@@ -250,6 +261,8 @@ $(function() {
   function codeAddress(address) {
     resetMarkers();
     resetReports();
+    $('#search').removeClass('error');
+
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -270,7 +283,7 @@ $(function() {
         showLocalFireStations(loc.lat, loc.lng);
         showLocalHospitals(loc.lat, loc.lng);
       } else {
-        alert("Geocode was not successful for the following reason: " + status);
+        $('#search').addClass('error');
       }
     });
   }
