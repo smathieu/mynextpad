@@ -31,7 +31,7 @@ li.report_row{width:500px; height: 70px; background-color:#ccc; padding: 5px;mar
 .walking_distance {padding: 0 10px 0 0;}
 
 /*REPORTS IMAGES*/
-.all      .report_image {}
+.all      .report-image {background: url('../images/icons/all.png');}
 .bixi     .report-image {background: url('../images/icons/bixi.png');}
 .grocery  .report-image {background: url('https://foursquare.com/img/categories/shops/food_grocery_64.png');}
 .police   .report-image {background: url('https://foursquare.com/img/categories/building/default_64.png');}
